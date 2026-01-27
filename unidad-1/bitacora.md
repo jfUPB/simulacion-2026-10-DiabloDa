@@ -31,6 +31,7 @@ step() {
 R//= Con la modificación se espera que en dos ocasiones se mueva de forma diagonal tanto para arriba como para abajo
 
 Resultado:
+
 <img width="824" height="423" alt="image" src="https://github.com/user-attachments/assets/714de657-c5a1-42f1-944d-6999ea71d562" />
 
 Como se pudo observar se cumplió lo esperado,  debido a que cuando el random sacaba un valor de 4 o 5, se le sumaba o restaba a ambos ejes al mismo tiempo, generando así como cuando en un juego pulsamos la tecla D + W al mismo tiempo para subir de forma horizontal.
@@ -43,3 +44,4 @@ Como se pudo observar se cumplió lo esperado,  debido a que cuando el random sa
 
 
 ## Bitácora de reflexión
+
