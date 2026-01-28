@@ -88,7 +88,7 @@ function draw() {
   fill(0, 100);
   for (let i = 0; i < values.length; i++) {
     let xPos = values[i];
-    let yPos = height - 10;
+    let yPos = height;
     rect(xPos, yPos, 5, -10); // pequeñas barras
   }
 }
@@ -96,11 +96,71 @@ function draw() {
 
 Enlace: https://editor.p5js.org/DiabloDa/sketches/UGfN9gpON
 
+Imagen:
+
+<img width="1688" height="676" alt="image" src="https://github.com/user-attachments/assets/1e34bb1c-ace6-4eaa-a6d3-7d954609a021" />
+
+### Actividad 5:
+
+#### Distribución personalizada: Levy flight
+Este tipo de distribución básicamente es un tipo especial de la distribución de los pasos, y muchas de sus caracteristicas son varios pasos cercas, y otros alejados. 
+
+Entonces basandome en esto, busque modificar el primer ejemplo que nos dieron del walk, ya que por lo que se investigo, esto era lo más sencillo basado en una caminata.
+
+-Código: 
+```java
+let walker;
+
+function setup() {
+  createCanvas(640, 240);
+  background(255);
+  walker = new Walker();
+}
+
+function draw() {
+  walker.step();
+  walker.show();
+}
+
+class Walker {
+  constructor() {
+    this.x = width / 2;
+    this.y = height / 2;
+  }
+
+  show() {
+    stroke(0, 50);
+    point(this.x, this.y);
+  }
+
+  step() {
+    let stepSize = levyStep();
+    let angle = random(TWO_PI);
+    this.x += cos(angle) * stepSize;
+    this.y += sin(angle) * stepSize;
+
+    this.x = constrain(this.x, 0, width);
+    this.y = constrain(this.y, 0, height);
+  }
+}
+
+function levyStep() {
+  let u = random();
+  return pow(u, -1.5); 
+}
+
+```
+
+Enlace: https://editor.p5js.org/DiabloDa/sketches/OeSiINBWZ
+
+### Actividad 6:
+
 ## Bitácora de aplicación 
 
 
 
 ## Bitácora de reflexión
+
 
 
 
