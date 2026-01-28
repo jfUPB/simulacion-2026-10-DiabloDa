@@ -37,6 +37,9 @@ Resultado:
 Como se pudo observar se cumplió lo esperado,  debido a que cuando el random sacaba un valor de 4 o 5, se le sumaba o restaba a ambos ejes al mismo tiempo, generando así como cuando en un juego pulsamos la tecla D + W al mismo tiempo para subir de forma horizontal.
 
 ### Actividad 3
+-"En tus propias palabras cuál es la diferencia entre una distribución uniforme y una no uniforme de números aleatorios.": 
+Una distribución uniforme es una distribución en la que todos los números tienen exactamente la misma probabilidad de salir, es como un dado, cualquiera de los seis números en una tirada tiene la misma probabilidad de salir. Mientras, que por otro lado, una distribución no uniforme, es todo lo contrario, valores con más probabilidad para salir, por ejemplo, la probabilidad en que las personas caminan, no todos caminan al mismo ritmo, unos van mucho más rápido y otro mucho más despacio, y así.
+
 
 
 ## Bitácora de aplicación 
@@ -44,4 +47,5 @@ Como se pudo observar se cumplió lo esperado,  debido a que cuando el random sa
 
 
 ## Bitácora de reflexión
+
 
