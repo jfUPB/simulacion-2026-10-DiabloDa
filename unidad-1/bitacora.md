@@ -3,7 +3,7 @@
 ## Bitácora de proceso de aprendizaje
 
 ### Actividad 1:
-
+R//= Unir la programación con la creatividad humana, permitiendo hacer arte con una perfecta armonia entre máquina y mente humana.
 
 ### Actividad 2: 
 
@@ -160,6 +160,7 @@ Enlace: https://editor.p5js.org/DiabloDa/sketches/OeSiINBWZ
 
 
 ## Bitácora de reflexión
+
 
 
 
