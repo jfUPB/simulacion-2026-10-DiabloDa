@@ -155,11 +155,109 @@ Enlace: https://editor.p5js.org/DiabloDa/sketches/OeSiINBWZ
 
 ### Actividad 6:
 
+
 ## Bitácora de aplicación 
+
+### Actividad 7:
+
+¿Cuál es el concepto del arte? 
+R//= 
+
+-Código: 
+```java
+
+let t = 0; //Tiempo
+let chaos = 0;              //Suavidad de la línea
+let lines = []; //Vector de líneas
+let currentColor; //Color
+
+function setup() {
+  createCanvas(360, 240);
+  background(0);
+  currentColor = color(255); //Se inicia el color
+}
+
+function draw() {
+  background(0);
+
+  // Dibujar líneas anteriores
+  for (let l of lines) {
+    stroke(l.col); //Definir color de la línea
+    noFill(); //Sin grosor
+    beginShape(); //empezar a calcular la línea para dibujarla, abre el buffer para mandarle las indicaciones
+    for (let p of l.points) {
+      vertex(p.x, p.y);  //Manda las coordenadas a p5
+    }
+    endShape(); //Une todos los puntos y la dibuja
+  }
+
+  // Línea nueva
+  let points = []; //Array de puntos
+  let xoff = t; //Guarda el tiempo en el offset del eje x para su variación
+
+  for (let x = 0; x < width; x++) { //Array que genera la posición de X
+    // Curva base suave (Perlin)
+    let base = noise(xoff) * height; //Se suaviza la base con el noise dando valores de 1 y 0 y se multiplica por la altura
+
+    // Perturbación gaussiana (controlada)
+    let offset = randomGaussian() * chaos; //Aquí se calcula la distorción
+
+    let y = base + offset; //El eje y define su distorción
+    points.push({ x, y }); //Se guardan los puntos
+
+    xoff += 0.01; 
+  }
+
+  lines.push({
+    points: points,
+    col: currentColor
+  });
+
+  if (lines.length > 70) {
+    lines.shift();
+  }
+
+  t += 0.01;
+}
+
+// Mouse
+function mousePressed() {
+  // Nuevo color SOLO para lo nuevo
+  if (mouseButton === LEFT) {
+    currentColor = color(random(255), random(255), random(255));
+  }
+
+  // Más caos
+  if (mouseButton === RIGHT) {
+    chaos += 10;
+  }
+}
+
+// Teclado
+function keyPressed() {
+  if (key === 'w') {
+    chaos -= 15;
+  }
+
+  if (key === 's') {
+    chaos += 15;
+  }
+  // Suavizar
+  if (key === 'p') {
+    chaos = 0;
+  }
+}
+
+```
+
+Imagenes:
+
+<img width="551" height="453" alt="image" src="https://github.com/user-attachments/assets/b8b25361-d365-476e-b3c0-ef137c71f71f" />
 
 
 
 ## Bitácora de reflexión
+
 
 
 
