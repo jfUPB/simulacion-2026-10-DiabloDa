@@ -162,6 +162,7 @@ Enlace: https://editor.p5js.org/DiabloDa/sketches/OeSiINBWZ
 
 ¿Cuál es el concepto del arte? 
 R//= La idea de este proyecto, su concepto artístico fue retratar desde una curva la variación de colores y además que tan suavizada podría estar esta línea. Para esto se uso el ruido de Perlin, para lograr suavizar la curva con noise, además de que hacer que suba y baje generando una aleatoriedad en su movimiento y que no sea predecible se puede hacer gracías a la función gaussiana, permiento que los valores se apróximen a un valor mayor, y que no sea predecible. Para el cambio de color también se uso una distribución más uniforme, donde cada color podía salir, y el espectador puede ver varios colores junto, generando una curva con colores armónicos y probar muchas combinaciones, esto también se permite gracias a que cada curva se almacena y dura un breve periodo de tiempo, entonces si al pulsar repetidamente el click para cambiar los colores de forma aleatoria, se podría alcanzar a distinguir esto.
+Se pueden generar varios colores en armonía y comparar la nueva curva con la anterior, también el cambio de su ruido.
 
 -Código: 
 ```java
@@ -261,6 +262,7 @@ Imagenes:
 Enlace del Sketch: https://editor.p5js.org/DiabloDa/sketches/N1nGSF_A5
 
 ## Bitácora de reflexión
+
 
 
 
