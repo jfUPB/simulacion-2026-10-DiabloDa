@@ -155,6 +155,62 @@ Enlace: https://editor.p5js.org/DiabloDa/sketches/OeSiINBWZ
 
 ### Actividad 6:
 
+Lo que se busca con este código, es hacer una leve comparación entre entre una curva con ruido y otra sin ruido, para así nortar como el ruido perlin reduce lo brusco de este.
+
+
+-Código: 
+```java
+let t = 0;
+
+function setup() {
+  createCanvas(640, 240);
+  background(0);
+}
+
+function draw() {
+  background(0);
+  noFill();
+  strokeWeight(2);
+
+  let bands = 4;
+  let bandHeight = height / bands;
+
+  for (let i = 0; i < bands; i++) {
+    beginShape();
+    
+    // Intercalar: par = random, impar = Perlin
+    if (i % 2 === 0) {
+      // Ruido aleatorio
+      stroke(255, 80, 80);
+      for (let x = 0; x < width; x++) {
+        let y = random(bandHeight) + i * bandHeight;
+        vertex(x, y);
+      }
+    } else {
+      // Ruido Perlin
+      stroke(0, 200, 255);
+      let xoff = t;
+      for (let x = 0; x < width; x++) {
+        let y = noise(xoff) * bandHeight + i * bandHeight;
+        vertex(x, y);
+        xoff += 0.01;
+      }
+    }
+
+    endShape();
+  }
+
+  t += 0.01;
+}
+```
+
+enlace: https://editor.p5js.org/DiabloDa/sketches/HjrbOFbsD
+
+
+Resultado:
+
+<img width="834" height="401" alt="image" src="https://github.com/user-attachments/assets/14799c9d-b1e5-4636-9339-4a4326738e5e" />
+
 
 ## Bitácora de aplicación 
 
@@ -262,6 +318,7 @@ Imagenes:
 Enlace del Sketch: https://editor.p5js.org/DiabloDa/sketches/N1nGSF_A5
 
 ## Bitácora de reflexión
+
 
 
 
