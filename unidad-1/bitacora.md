@@ -323,7 +323,30 @@ Enlace del Sketch: https://editor.p5js.org/DiabloDa/sketches/N1nGSF_A5
 
 - Describe la diferencia fundamental entre la aleatoriedad generada por random() y la apariencia de aleatoriedad del Ruido Perlin (noise()). ¿En qué tipo de situación usarías cada una?
 
-R//= La diferencia fundamental es que random genera valores completamente
+R//= La diferencia fundamental es que random genera valores completamente aleatorio y sin ningún tipo de congruencia, mientras que el Ruido Perlin (noise), trata de suavizar esto, no genera valores completamente randoms, no, busca generar más bien valores cercanos para de esa manera suavizar las cosas.
+EL random se podría usar para cuando se buscan cosas espóntaneas, como generar un número completamente al azar, o si quiero generar en una obra generativa explosiones aleatorioas, mientras que con el ruido Perlin se puede usar más fácil para generar ondas y cosas así, que sus cambios son más suavez y sútiles.
+
+- Explica con tus palabras qué es una distribución de probabilidad. ¿Qué diferencia visual produce una caminata aleatoria con una distribución uniforme versus una con una distribución normal?
+
+R//= Una distribución de probabilidad como su nombre indica, dice que tan probable es que ocurra algo. que un algoritmo entre a un if por ejemplo (Cabe aclarar que no todos los valores tienen la misma probabilidad). sin embargo, una distribución uniforme, hace que toods los objetos tengan la misma probabilidad, por ejemplo, como se menciono antes, un dado, eso hace que todos tengan la misma probabilidad.
+
+Visualmente, se diferencian en que la unifrme, verás que todo crece constante e igual, no verás a la larga nada raro, mientras que en la otra, verás que hay un punto en el que se concentran más debido al a probabilidad.
+
+- ¿Cuál es el papel de la aleatoriedad en el arte generativo? Menciona al menos dos funciones distintas que cumple
+
+R//= En el arte generativo, la aleatoriedad es algo muy importante y fundamental, debido a que esta permite hacer dos cosas fundamentales en el arte generativo, como lo es la originalidad en cada obra, haciendo que cada una al ejecutarse se sienta como algo nuevo y distinto, y lo segundo es la sorpresa, al ser algo nuevo y distinto, hay variedad y a su vez el factor sorpresa, que hace que la gente quede sorprendida con lo nuevo que tendrá.
+
+- Piensa en tu obra final (Actividad 07). Describe uno de los conceptos de aleatoriedad que usaste y explica por qué fue una elección adecuada para lograr el efecto que buscabas.
+
+R//= Yo decidí por utilizar ruido Perlin acompañado de una pertuberancía gaussiana, esto permitiendo generar ruido en la curva y a su vez suavizarla.
+
+-¿Qué es un “paseo” o “caminata” (walk) en el contexto de la simulación? ¿Qué característica particular tiene una caminata de tipo “Lévy flight”?
+
+R//= La "caminata" o "paseo", hace referencia a un proceso donde una "entidad" por decirlo así, se mueve a un lado u otro de forma aleatoria según una probabilidad dada con anterioridad, y cada paso a su vez se va acumulando.
+Por otro lado, la Lévy flight, es similar a la caminata normal, con el extra de que en esta ocurren a veces unos saltos bastante grandes, generando de esta manera que a veces se vean algunos "huecos" por decirlo  así en el código.
+
+
+
 
 
 
