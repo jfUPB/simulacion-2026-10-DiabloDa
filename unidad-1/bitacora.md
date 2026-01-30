@@ -319,8 +319,11 @@ Enlace del Sketch: https://editor.p5js.org/DiabloDa/sketches/N1nGSF_A5
 
 ## Bitácora de reflexión
 
+### Actividad 8
 
+- Describe la diferencia fundamental entre la aleatoriedad generada por random() y la apariencia de aleatoriedad del Ruido Perlin (noise()). ¿En qué tipo de situación usarías cada una?
 
+R//= La diferencia fundamental es que random genera valores completamente
 
 
 
