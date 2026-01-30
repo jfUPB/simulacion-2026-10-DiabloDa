@@ -153,6 +153,11 @@ function levyStep() {
 
 Enlace: https://editor.p5js.org/DiabloDa/sketches/OeSiINBWZ
 
+Imagen: 
+
+<img width="890" height="349" alt="image" src="https://github.com/user-attachments/assets/2dbc5c76-c54b-4663-85df-9de74fa7611a" />
+
+
 ### Actividad 6:
 
 Lo que se busca con este código, es hacer una leve comparación entre entre una curva con ruido y otra sin ruido, para así nortar como el ruido perlin reduce lo brusco de este.
@@ -344,6 +349,7 @@ R//= Yo decidí por utilizar ruido Perlin acompañado de una pertuberancía gaus
 
 R//= La "caminata" o "paseo", hace referencia a un proceso donde una "entidad" por decirlo así, se mueve a un lado u otro de forma aleatoria según una probabilidad dada con anterioridad, y cada paso a su vez se va acumulando.
 Por otro lado, la Lévy flight, es similar a la caminata normal, con el extra de que en esta ocurren a veces unos saltos bastante grandes, generando de esta manera que a veces se vean algunos "huecos" por decirlo  así en el código.
+
 
 
 
