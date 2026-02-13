@@ -106,6 +106,70 @@ limit(), lo que hace es decirle al vector que no se pase de cierta magnitud, es 
 
 ### Actividad 6
 
+Código:
+
+```java
+let t = 0;
+let speed = 0.01;
+let dir = 1;
+
+function setup() {
+    createCanvas(200, 200);
+}
+
+function draw() {
+    background(200);
+
+    let origin = createVector(100, 100);
+
+    let v1 = createVector(70, 0);
+    let v2 = createVector(0, 70);
+
+    let v3 = p5.Vector.lerp(v1, v2, t);
+
+    // flechas principales
+    drawArrow(origin, v1, color(255,0,0));
+    drawArrow(origin, v2, color(0,0,255));
+    drawArrow(origin, v3, color(150,0,200));
+
+   
+    let between = p5.Vector.sub(v2, v1);
+    let redTip = p5.Vector.add(origin, v1);
+    drawArrow(redTip, between, color(0,150,0));
+
+    // animación
+    t += speed * dir;
+    if (t > 1 || t < 0) dir *= -1;
+}
+
+function drawArrow(base, vec, myColor) {
+    push();
+    stroke(myColor);
+    strokeWeight(3);
+    fill(myColor);
+
+    translate(base.x, base.y);
+    line(0, 0, vec.x, vec.y);
+
+    rotate(vec.heading());
+    let arrowSize = 7;
+    translate(vec.mag() - arrowSize, 0);
+    triangle(0, arrowSize/2, 0, -arrowSize/2, arrowSize, 0);
+    pop();
+}
+```
+-¿Cómo funciona lerp() y lerpColor().
+R//= Lerp() nos da un valor intermedio entre dos valores que nos deny este varía según un parametro que va de 0 a 1, mientras que lerpcolor() busca hacer lo mismo, pero esta vez con colores, no hacer un cambio brusco entre colores, sino un cambio suave.
+
+-¿Cómo se dibuja una flecha usando drawArrow()?
+R//=Primero se define una base, una posición en la cual se va a iniciar, la cual por defecto es 0,0. Luego con la función line se dibuja la línea, desde el punto 0,0 hasta el vector que se le dio, después se rota para que la flecha apunte a donde esta el vector y luego se evita que se pase la punta de la flecha del vector con su magnitud y restandole el tamaño, además de luego dibujar la punta.
+
+### Actividad 7
+-Cuál es el concepto del marco motion 101 y cómo se interpreta geométricamente.
+R//= Es un modelo básico 
+
+
 ## Bitácora de reflexión
+
 
 
