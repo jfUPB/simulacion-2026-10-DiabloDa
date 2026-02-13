@@ -183,9 +183,105 @@ R//= La aceleración es lo que realmente define el comportamiento del movimiento
 
 La posición es solo la consecuencia final.
 
+### Actividad 9
 
+Código:
+
+```java
+let particles = [];
+let mode = 0; // 0 seguir, 1 huir, 2 orbitar, 3 ruido
+
+function setup() {
+  createCanvas(600, 400);
+}
+
+function draw() {
+  background(10, 20);
+
+  // crear partículas continuamente
+  if (frameCount % 5 == 0) {
+    particles.push(new Particle(width/2, height/2));
+  }
+
+  // actualizar
+  for (let p of particles) {
+    p.behaviors();
+    p.update();
+    p.show();
+  }
+
+  // limpiar exceso
+  if (particles.length > 300) particles.splice(0,1);
+}
+
+// cambiar personalidad
+function mousePressed(){
+  mode = (mode + 1) % 4;
+}
+
+class Particle {
+
+  constructor(x,y){
+    this.pos = createVector(x,y);
+    this.vel = createVector();
+    this.acc = createVector();
+    this.maxSpeed = 3;
+  }
+
+  behaviors(){
+    let mouse = createVector(mouseX, mouseY);
+    let dir = p5.Vector.sub(mouse, this.pos);
+
+    if(mode == 0){ 
+      // seguir
+      dir.setMag(0.2);
+      this.applyForce(dir);
+    }
+
+    if(mode == 1){ 
+      // huir
+      dir.mult(-1);
+      dir.setMag(0.2);
+      this.applyForce(dir);
+    }
+
+    if(mode == 2){
+      // orbitar
+      let perpendicular = createVector(-dir.y, dir.x);
+      perpendicular.setMag(0.2);
+      this.applyForce(perpendicular);
+    }
+
+    if(mode == 3){
+      // ruido orgánico
+      let n = noise(this.pos.x*0.01, this.pos.y*0.01, frameCount*0.01);
+      let angle = map(n,0,1,0,TWO_PI);
+      let wander = p5.Vector.fromAngle(angle);
+      wander.setMag(0.15);
+      this.applyForce(wander);
+    }
+  }
+
+  applyForce(force){
+    this.acc.add(force);
+  }
+
+  update(){
+    this.vel.add(this.acc);
+    this.vel.limit(this.maxSpeed);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+  }
+
+  show(){
+    stroke(255,120);
+    point(this.pos.x,this.pos.y);
+  }
+}
+```
 
 ## Bitácora de reflexión
+
 
 
 
