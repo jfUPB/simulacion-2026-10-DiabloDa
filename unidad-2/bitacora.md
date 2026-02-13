@@ -185,6 +185,10 @@ La posición es solo la consecuencia final.
 
 ### Actividad 9
 
+Concepto del arte génerativo:
+Lo que se busco con esta obra fue generar un sistema de particulas con el cual el usuario pueda interactuar. Esto siguiendo algunas físicas planteadas para darles más vida a las particulas y que puedan llegar a dar formas increíbles. 
+Usando cuatro modos que varían según el click, uno sigue al mouse del usuario, utilizando vectores con magnitudes pequeñas para que las particulas no vayan tan rápido y brindadoles una aceleración para que sigan al mouse. Con otro click las particulas van en sentido contrario. Con un tercer click, estás orbitan con el mouse generando un vector perpendicular y por último, un noise, para que las particulas simulen un movimiento más natural, permitiendo así que genere un estilo único.
+
 Código:
 
 ```java
@@ -280,7 +284,21 @@ class Particle {
 }
 ```
 
+<img width="760" height="549" alt="image" src="https://github.com/user-attachments/assets/1c415dcd-a6a4-45ae-8d57-4d8198e9977a" />
+
+
+<img width="764" height="552" alt="image" src="https://github.com/user-attachments/assets/db50e046-e04b-45c9-b735-6cc163296570" />
+
+
+<img width="735" height="615" alt="image" src="https://github.com/user-attachments/assets/ec7ee85d-ede7-444f-9f20-b53ff7f07712" />
+
+
+Link: https://editor.p5js.org/DiabloDa/sketches/AHTHFRvKf
+
+
+
 ## Bitácora de reflexión
+
 
 
 
