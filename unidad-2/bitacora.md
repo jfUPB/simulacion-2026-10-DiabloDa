@@ -300,7 +300,193 @@ Link: https://editor.p5js.org/DiabloDa/sketches/AHTHFRvKf
 ## Bitácora de reflexión
 
 
+### Actividad 10
 
+Concepto: La pieza representa un ecosistema microscópico en constante formación.
+En el espacio aparecen núcleos u organismos centrales que atraen partículas cercanas mediante una fuerza similar a la gravedad. Las partículas no solo son atraídas, sino que también adquieren una velocidad tangencial que las obliga a orbitar alrededor del núcleo en lugar de colisionar directamente.
+
+Este comportamiento produce estructuras dinámicas: anillos, cúmulos y trayectorias curvas que se reorganizan continuamente. No existe un estado final estable; el sistema permanece en equilibrio dinámico, donde nuevas partículas nacen, son capturadas, escapan o migran hacia otros centros de atracción.
+
+Código:
+
+```java
+let organisms = [];
+let spores = [];
+
+function setup() {
+  createCanvas(900, 600);
+  background(0);
+}
+
+function draw() {
+
+  // fondo translúcido → deja rastro
+  background(0, 25);
+
+  // crear organismos
+  if(frameCount % 25 == 0){
+    organisms.push(new Organism(random(width), random(height)));
+  }
+
+  // crear esporas
+  if(frameCount % 5 == 0){
+    spores.push(new Spore(random(width), random(height)));
+  }
+
+  // actualizar organismos
+  for(let o of organisms){
+    o.behave();
+    o.update();
+    o.show();
+  }
+
+  // actualizar esporas
+  for(let s of spores){
+    s.follow(organisms);
+    s.update();
+    s.show();
+  }
+}
+
+
+// =========================
+// ORGANISMO (criatura principal)
+// =========================
+class Organism{
+
+  constructor(x,y){
+    this.pos = createVector(x,y);
+    this.vel = p5.Vector.random2D();
+    this.acc = createVector();
+    this.history = [];
+    this.maxSpeed = 2;
+    this.hue = random(260,320);
+  }
+
+  behave(){
+
+    // movimiento orgánico con noise
+    let n = noise(this.pos.x*0.003,this.pos.y*0.003,frameCount*0.01);
+    let angle = map(n,0,1,-PI,PI);
+    let wander = p5.Vector.fromAngle(angle);
+    wander.setMag(0.15);
+    this.applyForce(wander);
+
+    // atracción al mouse (la "luz")
+    let mouse = createVector(mouseX,mouseY);
+    let dir = p5.Vector.sub(mouse,this.pos);
+    dir.setMag(0.05);
+    this.applyForce(dir);
+  }
+
+  applyForce(f){
+    this.acc.add(f);
+  }
+
+  update(){
+    // motion 101
+    this.vel.add(this.acc);
+    this.vel.limit(this.maxSpeed);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+
+    // guardar historial para rastro
+    this.history.push(this.pos.copy());
+    if(this.history.length > 40) this.history.shift();
+  }
+
+  show(){
+
+    noFill();
+
+    // cuerpo luminoso
+    for(let i=0;i<this.history.length-1;i++){
+      let alpha = map(i,0,this.history.length,0,120);
+      stroke(180,80,255,alpha);
+      line(
+        this.history[i].x,this.history[i].y,
+        this.history[i+1].x,this.history[i+1].y
+      );
+    }
+
+    // cabeza brillante
+    noStroke();
+    fill(255,255,120);
+    circle(this.pos.x,this.pos.y,4);
+  }
+}
+
+
+// =========================
+// ESPORAS (partículas seguidoras)
+// =========================
+class Spore{
+
+  constructor(x,y){
+    this.pos = createVector(x,y);
+    this.vel = p5.Vector.random2D();
+    this.acc = createVector();
+  }
+
+  follow(orgs){
+
+  let closest = null;
+  let record = 9999;
+
+  for(let o of orgs){
+    let d = p5.Vector.dist(this.pos,o.pos);
+    if(d < record){
+      record = d;
+      closest = o;
+    }
+  }
+
+  if(closest){
+
+    let dir = p5.Vector.sub(closest.pos,this.pos);
+    let distance = dir.mag();
+
+    // evitar división por cero
+    distance = constrain(distance, 10, 200);
+
+    // ---- FUERZA GRAVITACIONAL ----
+    let G = 25; // intensidad global
+    let strength = G / (distance * distance);
+
+    let gravity = dir.copy();
+    gravity.setMag(strength);
+
+    // ---- TANGENCIAL (órbita) ----
+    let tangent = createVector(-dir.y, dir.x);
+    tangent.setMag(0.35);
+
+    // aplicar
+    this.applyForce(gravity);
+    this.applyForce(tangent);
+  }
+}
+
+
+  applyForce(f){
+    this.acc.add(f);
+  }
+
+  update(){
+    this.vel.add(this.acc);
+    this.vel.limit(2.5);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+  }
+
+  show(){
+    noStroke();
+    fill(255,230,120,200);
+    circle(this.pos.x,this.pos.y,2);
+  }
+}
+```
+
+<img width="918" height="679" alt="image" src="https://github.com/user-attachments/assets/35914c66-43e4-4c40-a497-dbf543c468b8" />
 
 
 
