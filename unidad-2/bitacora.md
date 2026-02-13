@@ -166,10 +166,27 @@ R//=Primero se define una base, una posición en la cual se va a iniciar, la cua
 
 ### Actividad 7
 -Cuál es el concepto del marco motion 101 y cómo se interpreta geométricamente.
-R//= Es un modelo básico 
+R//= Es un modelo básico de movimiento donde la posición de un objeto cambia sumandole una velocidad en cada frame. geometrícamente es el que el objeto sigue una dirección como si fuera una flecha.
+
+-¿Cómo se aplica motion 101 en el ejemplo?
+R//= Se aplica en el update, donde se le suma esta velocidad.
+
+### Actividad 8
+
+-¿Qué observaste cuando usas cada una de las aceleraciones propuestas?
+
+R//= La aceleración es lo que realmente define el comportamiento del movimiento:
+
+-Constante: movimiento físico clásico
+-Aleatoria: comportamiento natural/orgánico
+-Hacia objetivo: comportamiento autónomo/inteligente
+
+La posición es solo la consecuencia final.
+
 
 
 ## Bitácora de reflexión
+
 
 
 
