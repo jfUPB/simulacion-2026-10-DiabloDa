@@ -10,6 +10,7 @@
 
 -Código con fricción:
 
+```java
 let mover;
 
 function setup() {
@@ -56,5 +57,59 @@ class Mover {
     circle(this.pos.x, this.pos.y, 24);
   }
 }
+```
+
+-Código Resistencia al aire:
+```java
+let mover;
+
+function setup() {
+  createCanvas(640, 240);
+  mover = new Mover();
+}
+
+function draw() {
+  background(255);
+
+  mover.applyDrag(0.02); 
+  mover.update();
+  mover.show();
+}
+
+class Mover {
+  constructor() {
+    this.pos = createVector(width/2, 0);
+    this.vel = createVector(0, 0);
+    this.acc = createVector();
+  }
+
+  applyDrag(c) {
+    let speed = this.vel.mag();
+    let dragMag = c * speed * speed;
+    let drag = this.vel.copy().mult(-1).normalize().mult(dragMag);
+
+    this.applyForce(drag);
+  }
+
+  applyForce(f) {
+    this.acc.add(f);
+  }
+
+  update(){
+    // gravity
+    this.applyForce(createVector(0, 0.2));
+
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+  }
+
+  show(){
+    fill(0);
+    circle(this.pos.x, this.pos.y, 24);
+  }
+}
+```
 
 ## Bitácora de reflexión
+
