@@ -111,5 +111,75 @@ class Mover {
 }
 ```
 
+-Código de Atracción gravitacional: 
+
+```java
+let planets = [];
+let sun;
+
+function setup() {
+  createCanvas(640, 240);
+  sun = new Body(width/2, height/2, 50);
+
+  for(let i=0; i<6; i++){
+    planets.push(new Body(random(width), random(height), random(6,20)));
+  }
+}
+
+function draw() {
+  background(0);
+
+  sun.show();
+
+  for(let p of planets){
+    let force = sun.attract(p);
+    p.applyForce(force);
+
+    p.update();
+    p.show();
+  }
+}
+
+class Body {
+  constructor(x,y,m){
+    this.pos = createVector(x,y);
+    this.vel = createVector();
+    this.acc = createVector();
+    this.mass = m;
+  }
+
+  attract(other){
+    let dir = p5.Vector.sub(this.pos, other.pos);
+    let distance = constrain(dir.mag(), 5, 25);
+    dir.normalize();
+    let G = 1;
+    let strength = (G * this.mass * other.mass) / (distance * distance);
+    return dir.mult(strength);
+  }
+
+  applyForce(f){
+    let f2 = f.copy().div(this.mass);
+    this.acc.add(f2);
+  }
+
+  update(){
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+  }
+
+  show(){
+    noStroke();
+    fill(255,200,0);
+    circle(this.pos.x, this.pos.y, this.mass);
+  }
+}
+```
+
+### Actividad 4:
+
+
+
 ## Bitácora de reflexión
+
 
