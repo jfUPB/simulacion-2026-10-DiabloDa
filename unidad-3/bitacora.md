@@ -2,8 +2,8 @@
 
 ## Bitácora de proceso de aprendizaje
 
-
-## Bitácora de aplicación 
+### Actividad 1
+Principalmente, el tema de la IA es algo que llega a dar miedo y susto, sobre todo a nosotros los más nuevos, que nos piden un nivel mucho más alto del que generalmente vamos al tener al salir, es algo que da miedo por el simple hecho de senti que nos van a remplazar o que no seremos lo suficientes para un trabajo, es algo que a mucho de nosotros nos da miedo, porque hacer un esfuerzo de tantos años, para salir a trabajar y que por ser novatos, la IA ya haga lo que nosotros hacemos, puede ser algo que asuste. Por eso pienso que al día de hoy, lo ás importante es el usar y entender estás herramientas, apoyarse a su manera, así sean proyectos que luzcan sencillos o que no se vean demasiado sofisticados, el hecho de poder entender la herramienta, y usarla, es algo que pueded ayudar mucho, y nos permite fortalecernos con esta misma herramienta.
 
 ### Activida 2
 
@@ -192,6 +192,10 @@ class Body {
 }
 ```
 
+
+## Bitácora de aplicación 
+
+
 ### Actividad 4:
 
 # Historia
@@ -322,6 +326,7 @@ Código: https://editor.p5js.org/DiabloDa/sketches/R6FZ2hmuD
 
 
 ## Bitácora de reflexión
+
 
 
 
