@@ -327,6 +327,25 @@ Código: https://editor.p5js.org/DiabloDa/sketches/R6FZ2hmuD
 
 ## Bitácora de reflexión
 
+-Obra seleccionada
+
+Seleccioné la obra Lobster Trap and Fish Tail de Alexander Calder. Me llamó la atención cómo las piezas se mantienen suspendidas y reaccionan al aire, generando un movimiento suave y constante. No es un movimiento forzado, sino el resultado del equilibrio entre peso, gravedad y tensión.
+
+-Obra generativa inspirada
+
+Mi obra generativa recrea la idea de un móvil digital. Cada elemento está conectado a un punto fijo por medio de una fuerza tipo resorte. La gravedad tira hacia abajo, mientras que la tensión del “hilo” lo mantiene suspendido. Además, agregué resistencia al aire para que el movimiento sea más natural.
+El usuario puede presionar el mouse para generar una fuerza de viento que altera el equilibrio del sistema, similar a cómo el aire mueve los móviles físicos.
+
+-Relación con Motion 101
+
+En esta obra se aplica el marco Motion 101:
+Las fuerzas (gravedad, resorte, viento, resistencia) generan aceleración.
+La aceleración modifica la velocidad.
+La velocidad modifica la posición.
+El movimiento final es el resultado de todas estas interacciones.
+
+Así, el sistema digital traduce los principios físicos del mundo real en una experiencia generativa interactiva.
+
 
 
 
