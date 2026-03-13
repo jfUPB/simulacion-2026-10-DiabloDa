@@ -2,6 +2,10 @@
 
 ## Bitácora de proceso de aprendizaje
 
+### Actividad 1
+
+Uno de los aspectos que más me llamó la atención de la obra de Memo Akten fue cómo utiliza principios matemáticos y físicos relativamente simples para generar comportamientos visuales complejos y estéticamente interesantes. En particular, el uso del movimiento armónico simple permite crear oscilaciones que producen patrones visuales fluidos y rítmicos. Esto demuestra cómo reglas simples pueden generar resultados visuales ricos cuando se aplican dentro de un sistema generativo.
+
 ### Actividad 2
 -Simulación de ángulos:
 En la simulación se observa una figura que rota constantemente alrededor del centro de la pantalla. El programa cambia el ángulo de rotación en cada frame, lo que hace que los elementos gráficos giren.
@@ -657,6 +661,7 @@ class Pendulum {
 
 
 ## Bitácora de reflexión
+
 
 
 
