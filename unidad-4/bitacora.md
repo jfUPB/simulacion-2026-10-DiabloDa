@@ -2,9 +2,6 @@
 
 ## Bitácora de proceso de aprendizaje
 
-
-## Bitácora de aplicación 
-
 ### Actividad 2
 -Simulación de ángulos:
 En la simulación se observa una figura que rota constantemente alrededor del centro de la pantalla. El programa cambia el ángulo de rotación en cada frame, lo que hace que los elementos gráficos giren.
@@ -538,7 +535,7 @@ Para modificar la simulación creé dos objetos Pendulum en lugar de uno. El pri
 
 Esto hace que el movimiento del primer péndulo afecte al segundo, generando un sistema dinámico más complejo. Además se mantiene la interacción con el mouse para poder arrastrar cualquiera de los dos péndulos.
 
-## Bitácora de reflexión
+## Bitácora de aplicación 
 
 ### Actividad 11:
 
@@ -657,6 +654,11 @@ class Pendulum {
 
 
 <img width="942" height="608" alt="image" src="https://github.com/user-attachments/assets/6afe2db3-2cfe-4a89-aa35-da8a445ca486" />
+
+
+## Bitácora de reflexión
+
+
 
 
 
