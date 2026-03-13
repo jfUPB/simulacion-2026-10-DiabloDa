@@ -543,3 +543,116 @@ Esto hace que el movimiento del primer péndulo afecte al segundo, generando un 
 ### Actividad 11:
 
 
+Enlace: https://editor.p5js.org/DiabloDa/sketches/g5LbXsxno
+
+Código:
+
+```java
+let pendulums = [];
+
+function setup() {
+  createCanvas(800, 500);
+
+  for (let i = 0; i < 20; i++) {
+    pendulums.push(new Pendulum(random(width), random(100,250)));
+  }
+}
+
+function draw() {
+  background(20);
+
+  for (let p of pendulums) {
+    p.applyMouseForce();
+    p.update();
+    p.show();
+  }
+}
+
+class Pendulum {
+
+  constructor(x, length) {
+
+    this.pivot = createVector(x, 0);
+
+    this.length = length;
+
+    this.angle = random(-PI/4, PI/4);
+
+    this.angleVelocity = 0;
+    this.angleAcceleration = 0;
+
+    this.damping = 0.995;
+
+    this.ballSize = random(10,20);
+  }
+
+  applyMouseForce(){
+
+    let bob = this.getBobPosition();
+
+    let mouse = createVector(mouseX, mouseY);
+
+    let force = p5.Vector.sub(mouse, bob);
+
+    let d = constrain(force.mag(), 20, 200);
+
+    if(d < 120){
+
+      force.normalize();
+
+      let strength = 0.002;
+
+      if(mouseIsPressed){
+        strength *= -5;
+      }
+
+      this.angleAcceleration += strength * force.x;
+    }
+
+  }
+
+  getBobPosition(){
+
+    let x = this.pivot.x + sin(this.angle) * this.length;
+    let y = this.pivot.y + cos(this.angle) * this.length;
+
+    return createVector(x,y);
+  }
+
+  update(){
+
+    let gravity = 0.4;
+
+    this.angleAcceleration += (-gravity / this.length) * sin(this.angle);
+
+    this.angleVelocity += this.angleAcceleration;
+
+    this.angle += this.angleVelocity;
+
+    this.angleVelocity *= this.damping;
+
+    this.angleAcceleration = 0;
+  }
+
+  show(){
+
+    let bob = this.getBobPosition();
+
+    stroke(200);
+    strokeWeight(2);
+
+    line(this.pivot.x, this.pivot.y, bob.x, bob.y);
+
+    fill(150,200,255);
+
+    circle(bob.x, bob.y, this.ballSize);
+  }
+
+}
+```
+
+
+<img width="942" height="608" alt="image" src="https://github.com/user-attachments/assets/6afe2db3-2cfe-4a89-aa35-da8a445ca486" />
+
+
+
