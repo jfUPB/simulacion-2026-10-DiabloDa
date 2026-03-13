@@ -421,6 +421,125 @@ El primer resorte conecta el punto de anclaje con el primer bob. Luego, el segun
 
 ### Actividad 10
 
+Código: 
+
+```java
+class Pendulum {
+  constructor(x, y, r) {
+    this.pivot = createVector(x, y);
+    this.bob = createVector();
+    this.r = r;
+    this.angle = PI / 4;
+
+    this.angleVelocity = 0;
+    this.angleAcceleration = 0;
+
+    this.damping = 0.995;
+    this.ballr = 24;
+
+    this.dragging = false;
+  }
+
+  update() {
+    if (!this.dragging) {
+      let gravity = 0.4;
+
+      this.angleAcceleration = ((-1 * gravity) / this.r) * sin(this.angle);
+
+      this.angleVelocity += this.angleAcceleration;
+      this.angle += this.angleVelocity;
+
+      this.angleVelocity *= this.damping;
+    }
+  }
+
+  show() {
+    this.bob.set(
+      this.r * sin(this.angle),
+      this.r * cos(this.angle),
+      0
+    );
+
+    this.bob.add(this.pivot);
+
+    stroke(0);
+    strokeWeight(2);
+
+    line(this.pivot.x, this.pivot.y, this.bob.x, this.bob.y);
+
+    fill(127);
+    circle(this.bob.x, this.bob.y, this.ballr * 2);
+  }
+
+  clicked(mx, my) {
+    let d = dist(mx, my, this.bob.x, this.bob.y);
+
+    if (d < this.ballr) {
+      this.dragging = true;
+    }
+  }
+
+  stopDragging() {
+    this.angleVelocity = 0;
+    this.dragging = false;
+  }
+
+  drag() {
+    if (this.dragging) {
+      let diff = p5.Vector.sub(
+        this.pivot,
+        createVector(mouseX, mouseY)
+      );
+
+      this.angle = atan2(-diff.y, diff.x) - radians(90);
+    }
+  }
+}
+
+let pendulum1;
+let pendulum2;
+
+function setup() {
+  createCanvas(640, 240);
+
+  pendulum1 = new Pendulum(width / 2, 0, 120);
+
+  pendulum2 = new Pendulum(width / 2, 120, 120);
+}
+
+function draw() {
+  background(255);
+
+  pendulum1.update();
+  pendulum1.show();
+
+  // el segundo pivote es el bob del primero
+  pendulum2.pivot = pendulum1.bob;
+
+  pendulum2.update();
+  pendulum2.show();
+
+  pendulum1.drag();
+  pendulum2.drag();
+}
+
+function mousePressed() {
+  pendulum1.clicked(mouseX, mouseY);
+  pendulum2.clicked(mouseX, mouseY);
+}
+
+function mouseReleased() {
+  pendulum1.stopDragging();
+  pendulum2.stopDragging();
+}
+```
+
+Para modificar la simulación creé dos objetos Pendulum en lugar de uno. El primer péndulo mantiene el pivote original en la parte superior de la pantalla. Luego el segundo péndulo utiliza como pivote la posición del bob del primer péndulo, de manera que quedan conectados en serie.
+
+Esto hace que el movimiento del primer péndulo afecte al segundo, generando un sistema dinámico más complejo. Además se mantiene la interacción con el mouse para poder arrastrar cualquiera de los dos péndulos.
+
 ## Bitácora de reflexión
+
+### Actividad 11:
 
 
