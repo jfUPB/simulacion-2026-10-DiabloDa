@@ -249,7 +249,178 @@ Además agregué una variable llamada startAngle que cambia ligeramente en cada 
 
 ### Actividad 9:
 
+Código:
 
+```java
+// Nature of Code
+// Daniel Shiffman
+// Modificado: dos resortes en serie
+
+class Spring {
+  constructor(x, y, length) {
+    this.anchor = createVector(x, y);
+    this.restLength = length;
+    this.k = 0.2;
+  }
+
+  connect(bob) {
+    let force = p5.Vector.sub(bob.position, this.anchor);
+    let currentLength = force.mag();
+
+    let stretch = currentLength - this.restLength;
+
+    force.setMag(-1 * this.k * stretch);
+
+    bob.applyForce(force);
+  }
+
+  constrainLength(bob, minlen, maxlen) {
+    let direction = p5.Vector.sub(bob.position, this.anchor);
+    let length = direction.mag();
+
+    if (length < minlen) {
+      direction.setMag(minlen);
+      bob.position = p5.Vector.add(this.anchor, direction);
+      bob.velocity.mult(0);
+    } 
+    else if (length > maxlen) {
+      direction.setMag(maxlen);
+      bob.position = p5.Vector.add(this.anchor, direction);
+      bob.velocity.mult(0);
+    }
+  }
+
+  show() {
+    fill(127);
+    circle(this.anchor.x, this.anchor.y, 10);
+  }
+
+  showLine(bob) {
+    stroke(0);
+    line(bob.position.x, bob.position.y, this.anchor.x, this.anchor.y);
+  }
+}
+
+// ----------------------
+// Bob class
+
+class Bob {
+  constructor(x, y) {
+    this.position = createVector(x, y);
+    this.velocity = createVector();
+    this.acceleration = createVector();
+    this.mass = 24;
+
+    this.dragging = false;
+  }
+
+  applyForce(force) {
+    let f = p5.Vector.div(force, this.mass);
+    this.acceleration.add(f);
+  }
+
+  update() {
+    this.velocity.add(this.acceleration);
+    this.position.add(this.velocity);
+    this.acceleration.mult(0);
+  }
+
+  handleClick(mx, my) {
+    let d = dist(mx, my, this.position.x, this.position.y);
+    if (d < this.mass) {
+      this.dragging = true;
+    }
+  }
+
+  stopDragging() {
+    this.dragging = false;
+  }
+
+  handleDrag(mx, my) {
+    if (this.dragging) {
+      this.position.x = mx;
+      this.position.y = my;
+    }
+  }
+
+  show() {
+    stroke(0);
+    strokeWeight(2);
+    fill(175);
+    circle(this.position.x, this.position.y, this.mass * 2);
+  }
+}
+
+// ----------------------
+
+let bob1;
+let bob2;
+
+let spring1;
+let spring2;
+
+function setup() {
+  createCanvas(640, 240);
+
+  spring1 = new Spring(width / 2, 10, 100);
+
+  bob1 = new Bob(width / 2, 100);
+
+  spring2 = new Spring(width / 2, 100, 80);
+
+  bob2 = new Bob(width / 2, 180);
+}
+
+function draw() {
+  background(255);
+
+  let gravity = createVector(0, 2);
+
+  bob1.applyForce(gravity);
+  bob2.applyForce(gravity);
+
+  bob1.update();
+  bob2.update();
+
+  bob1.handleDrag(mouseX, mouseY);
+  bob2.handleDrag(mouseX, mouseY);
+
+  // primer resorte
+  spring1.connect(bob1);
+
+  // segundo resorte conectado al bob1
+  spring2.anchor = bob1.position;
+  spring2.connect(bob2);
+
+  spring1.constrainLength(bob1, 30, 200);
+  spring2.constrainLength(bob2, 30, 200);
+
+  spring1.showLine(bob1);
+  spring2.showLine(bob2);
+
+  bob1.show();
+  bob2.show();
+
+  spring1.show();
+}
+
+function mousePressed() {
+  bob1.handleClick(mouseX, mouseY);
+  bob2.handleClick(mouseX, mouseY);
+}
+
+function mouseReleased() {
+  bob1.stopDragging();
+  bob2.stopDragging();
+}
+```
+
+Para modificar la simulación creé un sistema de dos resortes conectados en serie. En el código original solo había un resorte conectado a un objeto bob. Para lograr el nuevo sistema agregué un segundo objeto bob y un segundo resorte.
+
+El primer resorte conecta el punto de anclaje con el primer bob. Luego, el segundo resorte conecta el primer bob con el segundo bob. De esta forma, cuando uno de los objetos se mueve, el movimiento se transmite al otro a través del resorte, generando una interacción entre ambos.
+
+### Actividad 10
 
 ## Bitácora de reflexión
+
 
