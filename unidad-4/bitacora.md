@@ -542,6 +542,10 @@ Esto hace que el movimiento del primer péndulo afecte al segundo, generando un 
 
 ### Actividad 11:
 
+La obra muestra un sistema de péndulos los cuales varian sus propiedades y ángulos de oscilación. La narrativa conceptual utilizada para diseñar las reglas del sistema es la idea de un campo de péndulos suspendidos que reaccionan a perturbaciones externas, similar a un conjunto de objetos colgantes que se ven afectados por movimientos en su entorno. 
+Como se mencionó antes, el sistema La narrativa conceptual utilizada para diseñar las reglas del sistema es la idea de un campo de péndulos suspendidos que reaccionan a perturbaciones externas, similar a un conjunto de objetos colgantes que se ven afectados por movimientos en su entorno, esto con el fin de que cada vez que se ejecute el mismo sea algo diferente y nuevo para la persona.
+
+También es importante resaltar que el movimiento de los péndulos se basa en conceptos de vectores, velocidad y aceleración, que permiten modelar su comportamiento físico dentro del sistema. Además, se implementa una fuerza externa generada por la interacción del usuario con el mouse, que altera la aceleración de los péndulos y modifica su movimiento.
 
 Enlace: https://editor.p5js.org/DiabloDa/sketches/g5LbXsxno
 
@@ -653,6 +657,7 @@ class Pendulum {
 
 
 <img width="942" height="608" alt="image" src="https://github.com/user-attachments/assets/6afe2db3-2cfe-4a89-aa35-da8a445ca486" />
+
 
 
 
