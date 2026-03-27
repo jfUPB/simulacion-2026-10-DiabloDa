@@ -321,5 +321,185 @@ estructura del sistema
 
 ## Bitácora de aplicación 
 
+#### El amor es una sensación que todos hemos vivido con un ser especial, esos momentos y ese recuerdo que nos queda de ese ser. Con esta obra busco retratar como el amor es algo corto en la vida, pero que sin embargo, se puede quedar siemrpe ese recuerdo del amor que una vez vivimos en nuestras cabezas, simbolizando que no se acaba, sino que se transforma.
+
+#### Cada decisión de lo planteo se tuvo en cuenta, que color agarrarían las particulas y como primero no sienten nada, luego se les acerca un ser querido y toman el color rosado y lo siguen con un poco de fuerza, luego al alejarse o al morir repentinametne, este deseo se vuelve azul llenandose de tristeza hasta que se aleja y queda como un bello recuerdo de un ser querido.
+
+
+
+Código: https://editor.p5js.org/DiabloDa/sketches/hbxblekTJ
+
+```java
+let particles = [];
+
+function setup() {
+  createCanvas(800, 500);
+}
+
+function draw() {
+  background(10, 10, 20, 40);
+
+  // crear nuevas partículas (nacen en el centro)
+  if (frameCount % 15 == 0) {
+    particles.push(new LoveParticle(width / 2, height / 2));
+  }
+
+  // recorrer partículas
+  for (let i = particles.length - 1; i >= 0; i--) {
+    let p = particles[i];
+
+    // fuerza suave hacia abajo (gravedad)
+    let gravity = createVector(0, 0.03);
+    p.applyForce(gravity);
+
+    p.update();
+    p.show();
+
+    // cuando "muere", se transforma en recuerdo
+    if (p.isDead()) {
+      particles.splice(i, 1);
+
+      // crear recuerdo
+      particles.push(new MemoryParticle(p.pos.x, p.pos.y));
+    }
+  }
+}
+
+// interacción: aceptar la pérdida
+function mousePressed() {
+  for (let p of particles) {
+    if (p instanceof LoveParticle) {
+      p.acceptLoss();
+    }
+  }
+}
+
+// ---------------- CLASE BASE
+
+class Particle {
+  constructor(x, y) {
+    this.pos = createVector(x, y);
+    this.vel = p5.Vector.random2D();
+    this.acc = createVector();
+    this.lifespan = 255;
+  }
+
+  applyForce(force) {
+    this.acc.add(force);
+  }
+
+  update() {
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+  }
+
+  isDead() {
+    return this.lifespan <= 0;
+  }
+}
+
+// ---------------- AMOR (ciclo principal)
+
+class LoveParticle extends Particle {
+  constructor(x, y) {
+    super(x, y);
+    this.state = 0; // 0 gris, 1 amor, 2 duelo
+    this.size = 5;
+  }
+
+  update() {
+    super.update();
+
+    let mouse = createVector(mouseX, mouseY);
+    let d = p5.Vector.dist(mouse, this.pos);
+
+    // ---------------- ETAPA 0 → inicio
+    if (this.state == 0) {
+      this.size += 0.05;
+
+      // si el mouse se acerca → pasa a amor
+      if (d < 100) {
+        this.state = 1;
+      }
+    }
+
+    // ---------------- ETAPA 1 → amor
+    else if (this.state == 1) {
+      this.size += 0.2;
+
+      // atracción al mouse
+      let dir = p5.Vector.sub(mouse, this.pos);
+      dir.setMag(0.05);
+      this.applyForce(dir);
+
+      // si el mouse se aleja → duelo
+      if (d > 150) {
+        this.state = 2;
+      }
+    }
+
+    // ---------------- ETAPA 2 → duelo
+    else if (this.state == 2) {
+      this.size -= 0.1;
+      this.lifespan -= 3;
+    }
+  }
+
+  acceptLoss() {
+    if (this.state == 1) {
+      this.state = 2;
+    }
+  }
+
+  show() {
+    noStroke();
+
+    if (this.state == 0) {
+      fill(150, this.lifespan); // gris
+    } else if (this.state == 1) {
+      fill(255, 100, 150, this.lifespan); // rosado
+    } else if (this.state == 2) {
+      fill(100, 150, 255, this.lifespan); // azul
+    }
+
+    circle(this.pos.x, this.pos.y, this.size);
+  }
+}
+
+// ---------------- RECUERDO (segunda partícula)
+
+class MemoryParticle extends Particle {
+  constructor(x, y) {
+    super(x, y);
+    this.size = 6;
+    this.lifespan = 200;
+  }
+
+  update() {
+    super.update();
+
+    // movimiento suave (como flotando)
+    let noiseForce = p5.Vector.random2D();
+    noiseForce.mult(0.02);
+    this.applyForce(noiseForce);
+
+    this.lifespan -= 0.5;
+  }
+
+  show() {
+    noStroke();
+    fill(255, 220, 100, this.lifespan); // amarillo recuerdo
+    circle(this.pos.x, this.pos.y, this.size);
+  }
+}
+```
+
+<img width="944" height="760" alt="image" src="https://github.com/user-attachments/assets/ed1fbe0f-a16b-4a3a-a94e-667271e4e862" />
+
+
+<img width="962" height="704" alt="image" src="https://github.com/user-attachments/assets/dccc253d-6ae0-4053-9b6d-e970a37f9958" />
+
+
 
 ## Bitácora de reflexión
