@@ -241,6 +241,84 @@ hay variedad dentro del sistema
 
 ### Actividad 4:
 
+#### Example 4.6
+La gravedad se define en draw():
+
+let gravity = createVector(0, 0.1);
+El emitter la aplica:
+emitter.applyForce(gravity);
+
+Es una fuerza global, porque:
+
+es la misma para todas las partículas
+no depende de cada partícula individual
+
+#### Example 4.7
+
+La gravedad sigue siendo global
+El repeller es diferente:
+
+El repeller es una fuerza local, porque:
+
+depende de la posición de cada partícula
+cambia según la distancia
+
+¿Dónde “vive” cada fuerza?
+
+Gravedad → en el draw() (externa al sistema)
+Repeller → en su propia clase (Repeller)
+
+
+- ¿Qué principio físico se modela?
+
+La fórmula:
+
+strength = (-power) / (distance * distance)
+
+Es similar a:
+
+gravedad o fuerzas eléctricas
+
+O sea: fuerza inversamente proporcional al cuadrado de la distancia.
+
+¿Cambió la clase Particle?
+
+No cambió casi nada
+
+Esto significa que:
+
+las partículas no saben nada de las fuerzas
+solo reciben fuerzas
+
+
+#### Modificación
+
+Cambié solo la apariencia
+
+Antes:
+
+circle(this.position.x, this.position.y, 8);
+
+Ahora (ejemplo):
+
+rect(this.position.x, this.position.y, 8, 8);
+
+¿Qué líneas toqué?
+
+Solo el método show() en Particle
+
+¿Qué clases modifiqué?
+
+Solo Particle
+
+¿Qué NO modifiqué?
+
+Emitter
+Repeller
+fuerzas
+lógica de muerte
+estructura del sistema
+
 ## Bitácora de aplicación 
 
 
