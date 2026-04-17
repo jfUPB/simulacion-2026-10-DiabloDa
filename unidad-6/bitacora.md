@@ -101,5 +101,294 @@ Facilita la generación de sistemas complejos a partir de reglas simples.
 
 En lugar de animar directamente cada elemento, se diseñan las condiciones bajo las cuales se mueven. Esto hace que el resultado sea más dinámico, impredecible y adaptable.
 
+### Actividad 3: 
+
+#### ¿Cómo está construido el campo de flujo?
+
+El campo de flujo está construido como una grilla (cuadrícula) que divide el espacio en celdas.
+En cada celda se almacena un vector que indica una dirección.
+
+#### ¿Qué representa cada celda o vector del campo?
+
+Cada celda representa una “instrucción de dirección”.
+El vector almacenado en esa celda indica hacia dónde debería moverse un agente si se encuentra en esa posición del espacio.
+
+-Es decir:
+
+  No mueve directamente al agente
+  Le da una guía de dirección
+
+#### ¿Cómo usa un agente su posición para consultar el campo?
+
+El agente toma su posición (x, y) y la traduce a la celda correspondiente dentro de la grilla.
+Por ejemplo:
+
+Divide su posición por el tamaño de cada celda (resolución)
+Obtiene un índice dentro del arreglo del campo
+
+De esta forma, sabe qué vector le corresponde según dónde está ubicado.
+
+#### ¿Cómo se convierte el vector consultado en una decisión de movimiento?
+
+El vector obtenido del campo se usa como una steering force.
+El proceso es:
+
+El agente obtiene el vector del campo
+Ese vector se ajusta (por ejemplo, se multiplica por una magnitud)
+Se aplica como fuerza al agente
+Se suma a su aceleración
+Esto modifica su velocidad y finalmente su posición
+
+Así, el agente no se mueve directamente, sino que es influenciado por el campo.
+
+#### Parámetros importantes del sistema:
+
+-Resolución:
+  -Define el tamaño de cada celda del campo.
+  -Alta resolución (celdas pequeñas): movimiento más detallado y complejo.
+  -Baja resolución (celdas grandes): movimiento más simple y uniforme.
+  
+-maxspeed:
+  -Limita la velocidad máxima del agente.
+  .Valores altos: movimiento más rápido y caótico.
+  -Valores bajos: movimiento más suave.
+  
+-maxforce:
+  -Limita la intensidad de la fuerza aplicada.
+  -Valores altos: cambios de dirección bruscos.
+  -Valores bajos: movimiento más fluido.
+  
+-Cantidad de agentes:
+  -Define cuántos elementos interactúan con el campo.
+  -Muchos agentes: mayor densidad visual.
+  -Pocos agentes: composición más limpia.
+
+#### Modificación realizada y efecto visual
+
+Modificación: disminuí el valor de maxforce.
+
+-Efecto:
+El movimiento se volvió más suave y continuo. Los agentes tardan más en cambiar de dirección, lo que genera trayectorias más fluidas y menos abruptas.
+Visualmente, el sistema se siente más orgánico, como si fuera un flujo natural (similar al agua o al viento).
+
+#### ¿Qué tipo de movimiento produce este algoritmo?
+
+Produce un movimiento continuo, fluido y direccional.
+Los agentes parecen seguir corrientes invisibles, generando trayectorias curvas en lugar de líneas rectas o movimientos bruscos.
+
+#### ¿Qué sensaciones visuales sugiere?
+
+-Fluidez
+-Organicidad
+-Calma o suavidad (dependiendo de los parámetros)
+-Complejidad emergente
+
+También puede sugerir fenómenos naturales como:
+
+-corrientes de agua
+-viento
+-humo
+
+#### ¿En qué tipo de pieza musical podría funcionar bien?
+
+Este tipo de sistema funcionaría bien con música que tenga continuidad y ritmo suave, por ejemplo:
+
+música ambiental
+electrónica suave
+piezas instrumentales lentas
+
+También podría adaptarse a música más intensa si se aumentan parámetros como velocidad y fuerza, generando un movimiento más caótico y energético.
+
+### Actividad 4:
+
+#### Reglas básicas del flocking
+
+El sistema de flocking se basa en tres reglas simples que cada agente sigue de manera local:
+
+#### Separación
+
+La separación hace que un agente se aleje de los vecinos que están demasiado cerca.
+Evita que los agentes se amontonen o colisionen.
+Funciona como una fuerza de repulsión a corta distancia.
+
+#### Alineación
+
+La alineación hace que un agente ajuste su dirección para coincidir con la de sus vecinos cercanos.
+Esto genera movimiento coordinado, donde muchos agentes parecen moverse como un grupo.
+
+#### Cohesión
+
+La cohesión hace que un agente se acerque al centro del grupo de vecinos.
+Es una fuerza de atracción que mantiene unido al conjunto.
+
+#### Parámetros que controlan estas reglas
+
+Cada regla tiene parámetros que afectan su comportamiento:
+
+-Peso de separación:
+  Controla qué tan fuerte un agente evita a los demás.
+
+-Peso de alineación:
+  Define cuánto intenta coincidir con la dirección de sus vecinos.
+
+Peso de cohesión:
+  Determina qué tan fuerte es la atracción hacia el grupo.
+
+
+#### Comportamiento emergente observado
+
+El sistema presenta un comportamiento:
+
+-Moderadamente disperso
+-Relativamente estable
+-Con momentos de fluidez en el movimiento grupal
+
+Cuando los parámetros están equilibrados, el flocking se ve organizado, pero con suficiente variación para no ser rígido.
+
+Si se exageran los valores, puede volverse:
+
+-nervioso (cambios bruscos)
+-caótico (pérdida de estructura grupal)
+
+#### ¿Qué atmósfera visual produce el flocking?
+
+El flocking genera una atmósfera de movimiento colectivo, similar a:
+
+bandadas de aves
+bancos de peces
+multitudes en movimiento
+
+Visualmente transmite:
+
+coordinación
+comportamiento grupal
+sensación de “vida” en el sistema
+¿En qué relación con una canción podría funcionar mejor?
+
+Este algoritmo funciona bien con música que tenga:
+
+ritmo constante
+estructura progresiva
+capas que se repiten con variaciones
+
+Por ejemplo:
+
+música electrónica
+música instrumental con crescendos
+piezas donde el ritmo guía el movimiento
+
+También puede adaptarse a cambios musicales:
+
+partes suaves → flocking más cohesivo y lento
+partes intensas → movimiento más rápido y disperso
+
+#### Actividad 5: 
+
+#### Tipo de movimiento que producen
+
+-Flow Fields:
+  Producen un movimiento continuo y fluido. Los agentes siguen trayectorias suaves y curvas, como si fueran arrastrados por una corriente invisible.
+
+-Flocking:
+  Genera un movimiento colectivo basado en interacción. Los agentes se agrupan, se separan y se reorganizan constantemente, simulando comportamientos de grupo.
+
+#### Nivel de control visual:
+
+-Flow Fields:
+  Alto nivel de control.
+  El diseñador define directamente el campo de vectores, lo que permite controlar la dirección global del movimiento.
+
+-Flocking:
+  Menor control directo.
+  El comportamiento emerge de la interacción entre agentes, por lo que es más difícil predecir exactamente el resultado.
+
+#### Nivel de emergencia
+
+-Flow Fields
+Nivel medio de emergencia.
+Aunque hay variación, el comportamiento general está guiado por el campo.
+
+-Flocking
+Alto nivel de emergencia.
+El comportamiento colectivo no está predefinido, sino que surge de reglas locales simples.
+
+#### Tipo de atmósfera o sensación
+
+Flow Fields:
+
+Fluidez
+Calma
+Organicidad
+Sensación de corriente o flujo natural
+
+Flocking:
+
+Vida colectiva
+Dinamismo
+Coordinación grupal
+Tensión o energía (dependiendo de parámetros)
+Relación posible con una pieza musical
+
+Flow Fields
+Funciona bien con música:
+
+ambiental
+lenta
+continua
+
+Se adapta a sonidos suaves y progresivos.
+
+Flocking
+Funciona bien con música:
+
+rítmica
+estructurada
+con cambios de intensidad
+
+Se adapta a beats y variaciones dinámicas.
+
+#### Ventajas y limitaciones
+
+-Flow Fields
+
+Ventajas:
+
+Fácil de controlar visualmente
+Movimiento suave y predecible
+Ideal para composiciones limpias
+
+Limitaciones:
+
+Puede volverse repetitivo
+Menor interacción entre agentes
+
+-Flocking
+
+Ventajas:
+
+Alto nivel de complejidad emergente
+Movimiento más “vivo”
+Interacción rica entre agentes
+
+Limitaciones:
+
+Difícil de controlar con precisión
+Puede volverse caótico si no se ajustan bien los parámetros.
+
+
+#### Cierre
+Uso según tipo de canción:
+
+-Contemplativa
+Usaría Flow Fields, porque genera movimiento suave, continuo y relajante, que acompaña bien sonidos lentos y atmósferas tranquilas.
+
+-Agresiva
+Usaría Flocking, aumentando velocidad y fuerzas. Esto genera movimiento caótico, tensión y energía, que coincide con música intensa.
+
+-Melancólica
+Usaría Flow Fields, con baja velocidad y variaciones suaves. Esto crea una sensación de fluidez lenta y emocional.
+
+-Eufórica
+Usaría Flocking, con parámetros que generen cohesión y dinamismo. El movimiento grupal rápido transmite energía y emoción colectiva.
 
 ## Bitácora de reflexión
