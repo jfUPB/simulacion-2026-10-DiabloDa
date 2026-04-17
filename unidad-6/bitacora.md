@@ -392,3 +392,66 @@ Usaría Flow Fields, con baja velocidad y variaciones suaves. Esto crea una sens
 Usaría Flocking, con parámetros que generen cohesión y dinamismo. El movimiento grupal rápido transmite energía y emoción colectiva.
 
 ## Bitácora de reflexión
+
+#### Concepto visual:
+
+Con esta obra, se busca generar el sentimiento de cariño hacia alguien, atraves de un campo de rosas generativas, petalos y siguiendo la melodia de la respectiva canción. Simbolizando de esta manera como se construyen, se intensifican y se expresan los sentimientos.
+
+#### ¿Cuál es la relación entre lo visual y la canción?
+
+La relación está estrechamente pensada, se busco generar un campo de rosas y cada parte se generara según algúna parte del a melodía, por ejemplo:
+-Graves (bass): controlan el nacimiento de nuevas rosas y los impulsos fuertes del sistema
+-Medios (mid): afectan la apertura de las rosas (floración)
+-Agudos (treble): generan pétalos y detalles visuales
+-Amplitud general: controla velocidad, energía y persistencia visual
+
+Generando así una armonia visual con la música, en algunas partes aparecen más rosas, crecen más rápido y así.
+
+La pantalla completa también fue de gran importancia para una mayor inmersión.
+
+#### Moodboard
+Algunas de estás imagenes se pensaron para la idea
+
+<img width="692" height="1230" alt="image" src="https://github.com/user-attachments/assets/1c494352-4263-45c9-bb84-725da2d423d8" />
+
+<img width="1152" height="2048" alt="image" src="https://github.com/user-attachments/assets/3d84fe4f-dc16-4cb9-93cb-55a03a75ba13" />
+
+<img width="720" height="1083" alt="image" src="https://github.com/user-attachments/assets/f479f24f-f3e3-4a4d-8d12-290599b92f2e" />
+
+<img width="736" height="1308" alt="image" src="https://github.com/user-attachments/assets/c4214b82-26cf-4b30-ae0a-2369d9ed1549" />
+
+#### Mapa de Decisiones
+
+Varios factores estéticos fueron pensados para una mayor inmersión, se escogio un fondo negro buscando una atmosfera más íntima, de ese sentimiento de cariño que es algo muy personal. El crecimiento vertical simboliza a su vez como este sentimiento va creciendo, los petalos es ese desborde emocional por el aprecio hacia esa persona.
+
+#### Mapa de interpretación
+
+Mouse: genera pétalos 
+Espacio: activa clímax visual
+S: reduce energía 
+C: Cambia el color de los petalos y las rosas
+Audio: controla dinámica general del sistema
+
+#### Algoritmo elegido
+
+En este caso para esta obra, se utilizó flow field en lugar de flocking. Esta decisión se tomo respecto a verios factores:
+
+-permitir un movimiento continuo y orgánico
+-generar varias trayectorias naturales similares al crecimiento de plantas
+-no depender del comportamiento grupal, sino de un “campo invisible”
+
+Y con estos factores cruciales, fue que se tomo la decisión de poder hacer una obra tan natural como esta.
+
+#### Relación audio-visual
+
+En la obra, como se mencionó antes, se busco una sinergia con la melodia, entonces, la energía se basa en la velocidad y cantidad, lso graves en el nacimiento de las rosas, lso medios en su forma y por último, los agudos en los detalles como los pétalos y destellos.
+
+#### Uso de la IA
+
+Aparte de generar el código únicamente, se busco mejorar el rendimiendo, usando IA's como Claude, ChatGPT y Gemini, para pulir el código en sus respectivas y ver algunos errores qeu salían, por ejemplo "Las rosas no se ven en la pantalla", o "Están saliendose de la pantalla, y no están tomando un buen tamaño, deberíamos intentar esto para intensificar el sentimiento" y prompts por el estilo.
+
+#### Código:
+
+
+
+
