@@ -452,6 +452,385 @@ Aparte de generar el código únicamente, se busco mejorar el rendimiendo, usand
 
 #### Código:
 
+Enlace: https://editor.p5js.org/DiabloDa/sketches/5WTCozAeR
+
+```java
+let audio, fft, amp;
+let roses = [];
+let petals = [];
+let flowfield;
+
+let started = false;
+let beat = false;
+let lastBeatTime = 0;
+
+let smoothBass = 0;
+let smoothMid = 0;
+let smoothTreble = 0;
+let smoothLevel = 0;
+
+let paletteIndex = 0;
+
+let modeClimax = false;
+let modeSilence = false;
+
+const MAX_PETALS = 800;
+
+const PALETTES = [
+  { stem: [330, 70, 80], petal: [350, 85, 95], center: [15, 90, 100] },
+  { stem: [270, 60, 75], petal: [290, 80, 100], center: [330, 90, 100] },
+  { stem: [180, 60, 70], petal: [200, 80, 90], center: [160, 85, 95] },
+];
+
+function preload() {
+  soundFormats('mp3', 'ogg');
+  audio = loadSound('rosa.mp3');
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  colorMode(HSB, 360, 100, 100, 255);
+  background(0);
+  fft = new p5.FFT(0.8, 1024);
+  amp = new p5.Amplitude();
+  flowfield = new FlowField(20);
+}
+
+function draw() {
+  if (!started) {
+    background(0);
+    fill(0, 0, 100);
+    textAlign(CENTER, CENTER);
+    textSize(28);
+    text('Click para comenzar', width / 2, height / 2);
+    return;
+  }
+
+  let level = amp.getLevel();
+  let bass = fft.getEnergy("bass") / 255;
+  let mid = fft.getEnergy("mid") / 255;
+  let treble = fft.getEnergy("treble") / 255;
+
+  smoothBass = lerp(smoothBass, bass, 0.08);
+  smoothMid = lerp(smoothMid, mid, 0.08);
+  smoothTreble = lerp(smoothTreble, treble, 0.08);
+  smoothLevel = lerp(smoothLevel, level, 0.08);
+
+  let now = millis();
+  beat = smoothBass > 0.6 && (now - lastBeatTime) > 300;
+  if (beat) lastBeatTime = now;
+
+  let bgAlpha;
+  if (modeSilence) bgAlpha = 5;
+  else if (modeClimax) bgAlpha = 60;
+  else bgAlpha = map(smoothLevel, 0, 0.3, 10, 45);
+
+  background(0, bgAlpha);
+
+  flowfield.update(smoothLevel + smoothBass);
+
+  if (modeClimax) {
+    for (let r of roses) {
+      r.bloomAngle += 0.05 + smoothBass * 0.05;
+      r.rotation += 0.02 + smoothLevel * 0.05;
+      if (random() < 0.2 + smoothTreble * 0.3 && petals.length < MAX_PETALS) {
+        petals.push(new FreePetal(r.pos.x, r.pos.y));
+      }
+    }
+  } else if (modeSilence) {
+    if (random() < 0.01) {
+      roses.push(new Rose(random(width), height + 10));
+    }
+  } else {
+    if (beat) {
+      for (let i = 0; i < floor(map(smoothBass, 0, 1, 1, 3)); i++) {
+        roses.push(new Rose(random(width), height));
+      }
+    } else if (random() < 0.02 + smoothLevel * 0.3) {
+      roses.push(new Rose(random(width), height));
+    }
+  }
+
+  let speedMult = modeSilence ? 0.3 : modeClimax ? 1.8 : 1.0;
+
+  for (let i = roses.length - 1; i >= 0; i--) {
+    roses[i].update(smoothLevel * speedMult, beat, smoothBass, smoothMid, smoothTreble);
+    roses[i].show(smoothLevel);
+    if (roses[i].dead) roses.splice(i, 1);
+  }
+
+  for (let i = petals.length - 1; i >= 0; i--) {
+    petals[i].update();
+    petals[i].show();
+    if (petals[i].alpha <= 0 || petals[i].pos.y > height + 50) {
+      petals.splice(i, 1);
+    }
+  }
+
+  if (modeClimax && frameCount % 90 === 0) modeClimax = false;
+}
+
+function mousePressed() {
+  if (!started) {
+    audio.loop();
+    started = true;
+    noCursor();
+    fullscreen(true);
+  } else {
+    for (let i = 0; i < 80; i++) {
+      if (petals.length < MAX_PETALS) {
+        petals.push(new FreePetal(random(width), random(height)));
+      }
+    }
+  }
+}
+
+function keyPressed() {
+  if (key === 'f' || key === 'F') fullscreen(!fullscreen());
+  if (key === 'r' || key === 'R') { roses = []; petals = []; background(0); }
+  if (key === 'c' || key === 'C') paletteIndex = (paletteIndex + 1) % PALETTES.length;
+
+  if (key === ' ') {
+    modeClimax = true;
+    modeSilence = false;
+  }
+
+  if (key === 's' || key === 'S') {
+    modeSilence = !modeSilence;
+    modeClimax = false;
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
+class FlowField {
+  constructor(res) {
+    this.res = res;
+    this.cols = floor(width / res);
+    this.rows = floor(height / res);
+    this.field = [];
+    this.zoff = 0;
+  }
+
+  update(level) {
+    this.zoff += 0.003 + level * 0.01;
+    for (let x = 0; x < this.cols; x++) {
+      this.field[x] = [];
+      for (let y = 0; y < this.rows; y++) {
+        let angle = noise(x * 0.1, y * 0.1, this.zoff) * TWO_PI * 2;
+        this.field[x][y] = p5.Vector.fromAngle(angle);
+      }
+    }
+  }
+
+  lookup(pos) {
+    let col = floor(constrain(pos.x / this.res, 0, this.cols - 1));
+    let row = floor(constrain(pos.y / this.res, 0, this.rows - 1));
+    return this.field[col][row].copy();
+  }
+}
+
+class Rose {
+  constructor(x, y) {
+    this.pos = createVector(x, y);
+    this.vel = createVector(random(-0.3, 0.3), random(-2.5, -3.5));
+    this.path = [createVector(x, y)];
+    this.stemLife = floor(random(120, 200));
+    this.bloomAngle = 0;
+    this.blooming = false;
+    this.dead = false;
+    this.age = 0;
+    this.numPetals = floor(random(6, 9));
+    this.petalSize = random(22, 38);
+    this.rotation = random(TWO_PI);
+    this.glitters = [];
+  }
+
+  update(level, beat, bass, mid, treble) {
+    this.age++;
+
+    if (!this.blooming) {
+      let force = flowfield.lookup(this.pos);
+      force.mult(0.3);
+      this.vel.add(force);
+      this.vel.limit(2 + level * 3 + bass * 3);
+      this.pos.add(this.vel);
+      this.path.push(this.pos.copy());
+
+      if (beat) this.vel.add(p5.Vector.random2D().mult(1 + bass * 2));
+      if (this.age > this.stemLife) this.blooming = true;
+
+    } else {
+      let target = map(mid, 0, 1, 0.3, 1);
+      this.bloomAngle = lerp(this.bloomAngle, target, 0.03 + level * 0.06);
+      this.rotation += 0.005 + bass * 0.05;
+
+      if (random() < 0.06 + treble * 0.4 && petals.length < MAX_PETALS) {
+        petals.push(new FreePetal(this.pos.x, this.pos.y));
+      }
+
+      if (beat) {
+        for (let i = 0; i < 6; i++) {
+          this.glitters.push(new Glitter(this.pos.x, this.pos.y, this.petalSize));
+        }
+      }
+
+      for (let i = this.glitters.length - 1; i >= 0; i--) {
+        this.glitters[i].update();
+        if (this.glitters[i].dead) this.glitters.splice(i, 1);
+      }
+
+      if (this.age > this.stemLife + 400) this.dead = true;
+    }
+
+    if (this.pos.y < -150 || this.pos.y > height + 20) this.dead = true;
+  }
+
+  show(level) {
+    let pal = PALETTES[paletteIndex];
+
+    noFill();
+    for (let i = 1; i < this.path.length; i++) {
+      let w = map(i, 0, this.path.length, 2.5, 0.8);
+      stroke(pal.stem[0], pal.stem[1], pal.stem[2] - 20, 160);
+      strokeWeight(w);
+      line(
+        this.path[i - 1].x, this.path[i - 1].y,
+        this.path[i].x, this.path[i].y
+      );
+    }
+
+    if (this.blooming) {
+      for (let g of this.glitters) g.show();
+      this.drawRose(level, pal);
+    }
+  }
+
+  drawRose(level, pal) {
+    push();
+    translate(this.pos.x, this.pos.y);
+    scale(beat ? 1.2 : 1.0);
+    rotate(this.rotation);
+
+    let open = this.bloomAngle;
+    let baseSize = this.petalSize * (0.9 + level * 1.5);
+
+    let layers = [
+      { n: this.numPetals, size: baseSize * 1.0, sat: pal.petal[1] - 25, bri: pal.petal[2] - 10, spread: open * baseSize * 0.55, alpha: 170 },
+      { n: this.numPetals, size: baseSize * 0.72, sat: pal.petal[1] - 10, bri: pal.petal[2] - 5, spread: open * baseSize * 0.28, alpha: 200 },
+      { n: this.numPetals - 1, size: baseSize * 0.42, sat: pal.petal[1], bri: pal.petal[2], spread: open * baseSize * 0.08, alpha: 230 },
+    ];
+
+    for (let layer of layers) {
+      for (let i = 0; i < layer.n; i++) {
+        let angle = (TWO_PI / layer.n) * i;
+        push();
+        rotate(angle);
+        translate(layer.spread, 0);
+        rotate(PI / 2 + open * 0.4);
+        fill(pal.petal[0], layer.sat, layer.bri, layer.alpha);
+        noStroke();
+        this.drawPetal(layer.size);
+        pop();
+      }
+    }
+
+    noStroke();
+    fill(pal.center[0], pal.center[1] - 20, pal.center[2], 80);
+    ellipse(0, 0, baseSize * 0.22 * 2.5, baseSize * 0.22 * 2.5);
+    fill(pal.center[0], pal.center[1], pal.center[2], 240);
+    ellipse(0, 0, baseSize * 0.22, baseSize * 0.22);
+
+    pop();
+  }
+
+  drawPetal(s) {
+    let w = s * 0.38;
+    let h = s * 0.85;
+    beginShape();
+    vertex(0, 0);
+    bezierVertex(-w * 0.9, -h * 0.2, -w, -h * 0.65, 0, -h);
+    bezierVertex(w, -h * 0.65, w * 0.9, -h * 0.2, 0, 0);
+    endShape(CLOSE);
+  }
+}
+
+class FreePetal {
+  constructor(x, y) {
+    this.pos = createVector(x, y);
+    this.vel = createVector(random(-0.6, 0.6), random(-0.5, 0.3));
+    this.rot = random(TWO_PI);
+    this.rotVel = random(-0.015, 0.015);
+    this.size = random(6, 14);
+    this.alpha = random(160, 220);
+    this.fadeSpeed = random(0.3, 0.7);
+  }
+
+  update() {
+    this.vel.y += 0.012;
+    this.vel.x += sin(frameCount * 0.02 + this.rot) * 0.015;
+    this.vel.mult(0.995);
+    this.pos.add(this.vel);
+    this.rot += this.rotVel;
+    this.alpha -= this.fadeSpeed;
+  }
+
+  show() {
+    if (this.alpha <= 0) return;
+    let pal = PALETTES[paletteIndex];
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.rot);
+    fill(pal.petal[0], pal.petal[1] - 10, pal.petal[2], this.alpha);
+    noStroke();
+    let s = this.size;
+    beginShape();
+    vertex(0, 0);
+    bezierVertex(-s * 0.4, -s * 0.2, -s * 0.45, -s * 0.65, 0, -s);
+    bezierVertex(s * 0.45, -s * 0.65, s * 0.4, -s * 0.2, 0, 0);
+    endShape(CLOSE);
+    pop();
+  }
+}
+
+class Glitter {
+  constructor(x, y, roseSize) {
+    let angle = random(TWO_PI);
+    let dist = random(roseSize * 0.3, roseSize * 1.2);
+    this.pos = createVector(x + cos(angle) * dist, y + sin(angle) * dist);
+    this.size = random(1.5, 4);
+    this.alpha = random(180, 255);
+    this.dead = false;
+  }
+
+  update() {
+    this.alpha -= 6;
+    this.size *= 0.95;
+    if (this.alpha <= 0) this.dead = true;
+  }
+
+  show() {
+    let pal = PALETTES[paletteIndex];
+    noStroke();
+    fill(pal.center[0], pal.center[1] - 30, 100, this.alpha);
+    rectMode(CENTER);
+    rect(this.pos.x, this.pos.y, this.size * 0.6, this.size * 3);
+    rect(this.pos.x, this.pos.y, this.size * 3, this.size * 0.6);
+    rectMode(CORNER);
+  }
+}
+```
 
 
+
+Capturas:
+
+<img width="1919" height="1199" alt="image" src="https://github.com/user-attachments/assets/5b3202aa-2789-414a-8e6b-5200f6cfcebe" />
+
+<img width="940" height="958" alt="image" src="https://github.com/user-attachments/assets/4763ebbe-cbdc-4027-b50c-121c21be1048" />
+
+
+<img width="1608" height="957" alt="image" src="https://github.com/user-attachments/assets/ef529e35-03c4-4c44-a184-bc0fbfbe91a0" />
 
