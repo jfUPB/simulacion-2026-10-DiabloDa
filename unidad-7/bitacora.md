@@ -54,4 +54,118 @@ Es un concepto que puede representarse tanto desde lo visual como desde lo inter
 
 ### Actividad 2
 
+Actividad 02: Exploración de Matter.js
+1) Conceptos fundamentales
+
+Engine
+Es el sistema que procesa la simulación. Calcula movimiento, colisiones y fuerzas en cada frame.
+
+World
+Es el espacio donde existen todos los objetos físicos. Funciona como contenedor de los cuerpos.
+
+Bodies
+Son los objetos físicos dentro del mundo. Tienen propiedades como masa, velocidad y fricción.
+
+Constraint
+Permite conectar cuerpos entre sí, como si fueran unidos por cuerdas o ligas.
+
+MouseConstraint
+Permite interactuar con los cuerpos usando el mouse, simulando manipulación directa.
+
+2) Experimentos realizados
+
+Se realizaron dos pruebas básicas integrando p5.js con Matter.js:
+
+Experimento 1: múltiples cajas cayendo por gravedad sobre un suelo
+Experimento 2: interacción con una caja mediante el mouse
+
+Estos experimentos permitieron entender cómo funcionan las fuerzas, colisiones e interacción en el sistema.
+
+(Código y evidencias incluidas en la entrega)
+
+3) Comportamiento físico de interés
+
+Para la palabra “Silencio”, interesa explorar un comportamiento donde:
+
+Las letras inicialmente estén separadas o inestables
+Luego puedan reorganizarse o mantenerse en equilibrio
+El usuario pueda intervenir en su estado
+
+La idea es que la palabra no sea estática, sino que refleje estados de estabilidad y perturbación.
+
+### Actividad 03: Exploración de audio en p5.js
+1) Experimentos
+
+Experimento 1 — Amplitud
+Se utilizó la amplitud del audio para modificar el tamaño de un objeto.
+Resultado: el objeto cambia de tamaño de forma continua según el volumen.
+
+Experimento 2 — Frecuencias (FFT)
+Se analizaron los bajos para modificar el color.
+Resultado: los cambios de color responden a golpes específicos del audio.
+
+2) Datos y comportamiento
+Amplitud: genera cambios continuos (suavidad, respiración visual)
+Frecuencias: permiten detectar eventos puntuales (beats, golpes)
+3) Aplicación al concepto
+
+Para la palabra “Silencio”, la relación propuesta es:
+
+Volumen bajo → estabilidad (la palabra se mantiene clara)
+Volumen alto → perturbación (la forma se deforma o pierde claridad)
+
+Esto crea un contraste entre ausencia y presencia de sonido, que es central en el concepto.
+
+### Actividad 04: Integración inicial
+1) Prueba inicial
+
+Se desarrolló una prueba utilizando la letra “S” de la palabra “Silencio”.
+La letra fue representada como un conjunto de puntos, permitiendo manipular su forma de manera flexible.
+
+2) Parte construida
+
+Se trabajó únicamente con la letra “S”, enfocándose en su estructura interna y comportamiento visual.
+
+3) Propiedad manipulada
+
+En lugar de usar físicas tradicionales, se trabajó con:
+
+deformación de la forma
+desplazamiento de puntos
+dispersión controlada
+
+Esto genera un efecto similar a vibración o inestabilidad.
+
+4) Relación con el audio
+Volumen bajo → la forma permanece estable
+Volumen medio → aparece vibración
+Volumen alto → la forma se deforma significativamente
+
+Esto establece una relación directa entre sonido y transformación visual.
+
+5) Evaluación
+
+Aspectos que funcionaron:
+
+La deformación ocurre directamente sobre la letra
+Existe una relación clara entre audio y forma
+La letra conserva legibilidad en estados de baja energía
+
+Aspectos a mejorar:
+
+No hay interacción física real (sin colisiones o gravedad)
+La deformación es poco controlada
+Solo se trabaja con una parte de la palabra
+6) Relación con el significado
+
+El comportamiento logrado se acerca al concepto de “silencio”:
+
+El estado base es estable
+El sonido introduce perturbación
+
+Sin embargo, aún es necesario reforzar el contraste para que el concepto sea más evidente, por ejemplo aumentando la intensidad de la deformación o haciendo que la forma colapse en momentos de mayor sonido.
+
+
 ## Bitácora de reflexión
+
+
