@@ -202,4 +202,243 @@ Código: https://editor.p5js.org/DiabloDa/sketches/JI-UUf4vC
 
 <img width="933" height="949" alt="image" src="https://github.com/user-attachments/assets/470f0046-7aa1-4319-973c-4bc4596290d4" />
 
+```java
+let engine, world;
+let letters = [];
+let trailLayer;
+let word = "HIELO";
+let iceSound;
+let soundStarted = false;
+let freezeTimer = 0;
 
+const ICE_HUE = 195;
+const ICE_SAT = 35;
+const ICE_BRI = 98;
+
+function preload() {
+  iceSound = loadSound('hielo.mp3');
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  colorMode(HSB, 360, 100, 100, 255);
+
+  engine = Matter.Engine.create();
+  world = engine.world;
+  world.gravity.y = 0;
+
+  trailLayer = createGraphics(windowWidth, windowHeight);
+  trailLayer.colorMode(HSB, 360, 100, 100, 255);
+  trailLayer.background(210, 30, 8);
+
+  textFont('Georgia');
+  createWord();
+}
+
+function createWord() {
+  letters = [];
+  Matter.World.clear(world);
+  Matter.Engine.clear(engine);
+  engine = Matter.Engine.create();
+  world = engine.world;
+  world.gravity.y = 0;
+
+  let totalWidth = word.length * 75;
+  let startX = (width - totalWidth) / 2 + 37;
+
+  for (let i = 0; i < word.length; i++) {
+    let x = startX + i * 75;
+    let y = height / 2;
+
+    let body = Matter.Bodies.rectangle(x, y, 60, 80, {
+      frictionAir: 0.008,
+      friction: 0.0,
+      restitution: 0.6,
+      mass: 1
+    });
+
+    Matter.Body.setVelocity(body, {
+      x: random(-1.5, 1.5),
+      y: random(-0.8, 0.8)
+    });
+
+    Matter.World.add(world, body);
+    letters.push({
+      char: word[i],
+      body: body,
+      noiseOffX: random(1000),
+      noiseOffY: random(1000),
+      glint: random(1000)
+    });
+  }
+}
+
+function draw() {
+  background(210, 30, 8, 255);
+  Matter.Engine.update(engine, 1000 / 60);
+
+  trailLayer.noStroke();
+  trailLayer.fill(210, 30, 8, 18);
+  trailLayer.rect(0, 0, width, height);
+
+  for (let l of letters) {
+    let pos = l.body.position;
+    let vel = l.body.velocity;
+    let spd = sqrt(vel.x * vel.x + vel.y * vel.y);
+
+    let t = frameCount * 0.003;
+    let driftX = (noise(l.noiseOffX + t) - 0.5) * 0.0008;
+    let driftY = (noise(l.noiseOffY + t) - 0.5) * 0.0004;
+
+    if (freezeTimer <= 0) {
+      Matter.Body.applyForce(l.body, pos, { x: driftX, y: driftY });
+    }
+
+    let friction = freezeTimer > 0 ? 0.85 : 0.997;
+    Matter.Body.setVelocity(l.body, {
+      x: vel.x * friction,
+      y: vel.y * friction
+    });
+
+    let margin = 60;
+    if (pos.x < margin) {
+      Matter.Body.setPosition(l.body, { x: margin, y: pos.y });
+      Matter.Body.setVelocity(l.body, { x: abs(vel.x) * 0.8, y: vel.y });
+    }
+    if (pos.x > width - margin) {
+      Matter.Body.setPosition(l.body, { x: width - margin, y: pos.y });
+      Matter.Body.setVelocity(l.body, { x: -abs(vel.x) * 0.8, y: vel.y });
+    }
+    if (pos.y < margin) {
+      Matter.Body.setPosition(l.body, { x: pos.x, y: margin });
+      Matter.Body.setVelocity(l.body, { x: vel.x, y: abs(vel.y) * 0.8 });
+    }
+    if (pos.y > height - margin) {
+      Matter.Body.setPosition(l.body, { x: pos.x, y: height - margin });
+      Matter.Body.setVelocity(l.body, { x: vel.x, y: -abs(vel.y) * 0.8 });
+    }
+
+    if (spd > 0.3) {
+      let trailAlpha = map(spd, 0.3, 4, 8, 35);
+      let trailSize  = map(spd, 0.3, 4, 4, 10);
+      trailLayer.fill(ICE_HUE, ICE_SAT - 5, ICE_BRI, trailAlpha);
+      trailLayer.ellipse(pos.x, pos.y, trailSize);
+    }
+  }
+
+  if (freezeTimer > 0) freezeTimer--;
+
+  image(trailLayer, 0, 0);
+
+  textAlign(CENTER, CENTER);
+  textSize(80);
+
+  for (let l of letters) {
+    let pos = l.body.position;
+    let glintVal = sin(frameCount * 0.04 + l.glint) * 0.5 + 0.5;
+
+    // Interpolación de color según freezeTimer
+    let freezeAmt = map(freezeTimer, 0, 80, 0, 1);
+    let currentSat = lerp(ICE_SAT, 85, freezeAmt);
+    let currentBri = lerp(ICE_BRI, 75, freezeAmt);
+    let currentHue = lerp(ICE_HUE, 210, freezeAmt);
+
+    push();
+    translate(pos.x, pos.y);
+
+    drawingContext.shadowBlur = lerp(8, 30, freezeAmt);
+    drawingContext.shadowColor = `hsla(${currentHue}, 80%, 60%, ${lerp(0.3, 0.9, freezeAmt)})`;
+
+    noFill();
+    stroke(currentHue, currentSat, currentBri, 20 + glintVal * 15);
+    strokeWeight(4);
+    text(l.char, 0, 0);
+
+    fill(currentHue, currentSat * 0.6, currentBri);
+    stroke(currentHue, currentSat, currentBri - 10, 80);
+    strokeWeight(1);
+    text(l.char, 0, 0);
+
+    fill(currentHue - 10, 15, 100, 90 + glintVal * 30);
+    noStroke();
+    text(l.char, -1, -3);
+
+    pop();
+  }
+}
+
+function mousePressed() {
+  if (!soundStarted) {
+    userStartAudio();
+    fullscreen(true);
+    soundStarted = true;
+  }
+
+  if (iceSound.isLoaded() && !iceSound.isPlaying()) {
+    iceSound.play();
+    freezeTimer = 80;
+  }
+
+  for (let l of letters) {
+    let pos = l.body.position;
+    let dx = pos.x - mouseX;
+    let dy = pos.y - mouseY;
+    let d = sqrt(dx * dx + dy * dy);
+    let forceMag = map(d, 0, 400, 0.18, 0.04);
+    forceMag = constrain(forceMag, 0.02, 0.18);
+    let nx = dx / (d + 0.001);
+    let ny = dy / (d + 0.001);
+    Matter.Body.applyForce(l.body, pos, {
+      x: nx * forceMag,
+      y: ny * forceMag
+    });
+  }
+}
+
+function mouseMoved() {
+  // sin efecto
+}
+
+function keyPressed() {
+  if (key === 'r' || key === 'R') {
+    trailLayer.background(210, 30, 8);
+    createWord();
+  }
+  if (key === ' ') {
+    for (let l of letters) {
+      let pos = l.body.position;
+      Matter.Body.applyForce(l.body, pos, {
+        x: random(-0.04, 0.04),
+        y: random(-0.04, 0.04)
+      });
+    }
+  }
+  if (keyCode === UP_ARROW) {
+    for (let l of letters) {
+      let vel = l.body.velocity;
+      Matter.Body.setVelocity(l.body, {
+        x: vel.x * 0.1,
+        y: vel.y * 0.1
+      });
+    }
+  }
+  if (keyCode === DOWN_ARROW) {
+    for (let l of letters) {
+      let vel = l.body.velocity;
+      let spd = sqrt(vel.x * vel.x + vel.y * vel.y) + 0.1;
+      Matter.Body.setVelocity(l.body, {
+        x: (vel.x / spd) * 3,
+        y: (vel.y / spd) * 3
+      });
+    }
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  trailLayer = createGraphics(windowWidth, windowHeight);
+  trailLayer.colorMode(HSB, 360, 100, 100, 255);
+  trailLayer.background(210, 30, 8);
+}
+
+```
