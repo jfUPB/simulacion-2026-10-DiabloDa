@@ -168,4 +168,38 @@ Sin embargo, aún es necesario reforzar el contraste para que el concepto sea m�
 
 ## Bitácora de reflexión
 
+### Actividad 5
+
+-La palabra elegida es “HIELO”, que sugiere frío, rigidez, fragilidad y deslizamiento.
+
+Para qué sirve en tu pieza:
+Define todo el comportamiento: movimiento lento, suavizado y sensación de deslizamiento.
+
+-La forma visual refuerza el concepto de hielo.
+
+Aplicación en la pieza:
+
+Tipografía serif (Georgia) → elegante, fría, “cristalina”
+Brillos y sombras → simulan reflejo del hielo
+Capas de texto → sensación de transparencia
+
+-El audio congela las letras, congenlandolas un breve instante hasta que termina de sonar
+
+Moodboard:
+
+<img width="702" height="1201" alt="image" src="https://github.com/user-attachments/assets/937545b0-64d9-481a-b2d4-36b96bc0beb6" />
+
+
+<img width="735" height="980" alt="image" src="https://github.com/user-attachments/assets/0b5cdbae-ec90-46dd-9788-4b055b420b96" />
+
+
+<img width="972" height="1900" alt="image" src="https://github.com/user-attachments/assets/80778ef0-7bb0-49e0-b2aa-6d0e0153d511" />
+
+
+Código: https://editor.p5js.org/DiabloDa/sketches/JI-UUf4vC
+
+<img width="1919" height="1199" alt="image" src="https://github.com/user-attachments/assets/1921ec24-7f81-4b23-b34a-c9f226d0e160" />
+
+<img width="933" height="949" alt="image" src="https://github.com/user-attachments/assets/470f0046-7aa1-4319-973c-4bc4596290d4" />
+
 
