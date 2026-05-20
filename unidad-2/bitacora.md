@@ -3,7 +3,490 @@
 ## Bitácora de proceso de aprendizaje
 
 
+
 ## Bitácora de aplicación 
+
+### Actividad 2:
+-¿Cómo funciona la suma dos vectores en p5.js?
+R// Aquí los vectores se suman por medio de la función add, la cual hace referencia a la suma. En el ejemplo se suma el vector posición con el de velocidad, por medio de "position.add(velocity)".
+
+-¿Por qué esta línea position = position + velocity; no funciona?
+R//= Porque la suma de dos vectores no funciona así en programación. Cuando se trata de vectores el programa los detecta como objetos, por ende ahí se esta intentando sumar dos objetos, lo cual no funciona así y para el lenguaje no tiene mucho sentido. Es por eso que se creo la función "add", la cual se encarga de esto, sumarlos.
+
+### Actividad 3:
+Código:
+```java
+let walker;
+
+function setup() {
+  createCanvas(640, 240);
+  background(255);
+  walker = new Walker();
+}
+
+function draw() {
+  walker.step();
+  walker.show();
+}
+
+class Walker {
+
+  constructor() {
+    this.position = createVector(width/2, height/2);
+  }
+
+  show() {
+    stroke(0, 40);
+    point(this.position.x, this.position.y);
+  }
+
+  step() {
+
+    // Crear desplazamiento aleatorio (vector)
+    let step = createVector(random(-1,1), random(-1,1));
+
+    // Suma vectorial (movimiento real)
+    this.position.add(step);
+
+    // Limitar al canvas
+    this.position.x = constrain(this.position.x, 0, width);
+    this.position.y = constrain(this.position.y, 0, height);
+  }
+}
+
+```
+
+Lo que se hizo fue crear dos vectores, con position y step. primero a position dandole el centro de la pantalla, para que siempre iniice ahí, y con el step, se busca crear un vector con valores random de - 1 a 1 tanto en x como en y para que su movimiento sea completamente aleatorio. y de ahí se le suman lso vectores position y step y luego se le límita, es decir, que no se vaya a pasar del canvas.
+
+### Actividad 4
+
+-¿Qué resultado esperas obtener en el programa anterior?
+R//= Por lo que puedo interpretar, espero que se crea un vector, luego se pasa a string para escribirlo en consola, entonces que se escriba con su valor anterior para luego, llamar a esa otra función y cambiarle el valor de sus parametros para volver a escribirlo.
+
+-¿Qué resultado obtuviste?
+R//= El resultado que esperaba salió tal cual, además de un texto que se me olvido mencionar pero sí, se escribe el vector con sus valores iniciales, y luego se vuelve a escribir con los nuevos valores que se le asignan en la función nueva donde se pasa el vector "position" como parametro de está función.
+
+Paso por valor: 
+Acá cuando un se le da un valor a otra función, se crea otra copia, es decir, se crea una copia de lo que se tenga sin afectar el original.
+
+Paso por referencia: 
+Acá cuando se le da el valor a la función, el parametro que se le da (un objeto en este caso), si cambia, no se mantiene igual.
+
+En el ejemplo que vimos, eso paso por referencia porque se cambio el vector, sus valores de x y y se cambiaron al pasarle una referencia a otra función.
+
+### Actividad 5
+
+-¿Para qué sirve el método mag()? Nota que hay otro método llamado magSq(). ¿Cuál es la diferencia entre ambos? ¿Cuál es más eficiente?
+
+mag (Desde el origen hasta su punta) lo que hace es darnos la magnitud del vector, sin embargom, la diferencia entre magSq y mag es que Sq no saca el valor con la raíz cuadrada, que puede llegar a ser un poco inpresiso, pero si se busca una aproximado y poder ahorrar recursos, magSq es mejor opción, por otro lado, para más precisión se busca usar mag().
+
+-¿Para qué sirve el método normalize()?
+
+Convierte un vector en unitario, mantiene su dirección pero su tamaño cambia a 1, es decir, apunta al mismo sitio, pero su tamaño es uno.
+
+-Te encuentras con un periodista en la calle y te pregunta ¿Para qué sirve el método dot()? ¿Qué le responderías en un frase?
+
+Con el método dot() hacemos referencia al producto punto entre vectores, y con este podemos saber que tan aliniados están dos vectores.
+
+-El método dot() tiene una versión estática y una de instancia. ¿Cuál es la diferencia entre ambas?
+
+A la hora de la verdad, no  cambia mucho. Por instancia, un vector llama al otro y hace el calculo (v1.dot(v2)), mientras que por estático, se llama a la clase y hace la operación, es más por comodidad pero ambos dan el mismo resultado.
+
+-Ahora el mismo periodista curioso de antes te pregunta si le puedes dar una intuición geométrica acerca del producto cruz. Entonces te pregunta ¿Cuál es la interpretación geométrica del producto cruz de dos vectores? Tu respuesta debe incluir qué pasa con la orientación y la magnitud del vector resultante.
+
+El producto cruz nos permite crear otro vector perpendicular a los otros dos que ya estén creados. donde su magnitud es el area de estos dos vectores y su dirección se puede calcular por la regla de la mano derecha
+
+-¿Para que te puede servir el método dist()?
+
+Está función nos permite calcular la distancia entre dos vectores
+
+-¿Para qué sirven los métodos normalize() y limit()?
+
+limit(), lo que hace es decirle al vector que no se pase de cierta magnitud, es decir, le damos un valor que sea el límite de su magnitud, mientras que normalice es que su tamaño será 1. 
+
+### Actividad 6
+
+Código:
+
+```java
+let t = 0;
+let speed = 0.01;
+let dir = 1;
+
+function setup() {
+    createCanvas(200, 200);
+}
+
+function draw() {
+    background(200);
+
+    let origin = createVector(100, 100);
+
+    let v1 = createVector(70, 0);
+    let v2 = createVector(0, 70);
+
+    let v3 = p5.Vector.lerp(v1, v2, t);
+
+    // flechas principales
+    drawArrow(origin, v1, color(255,0,0));
+    drawArrow(origin, v2, color(0,0,255));
+    drawArrow(origin, v3, color(150,0,200));
+
+   
+    let between = p5.Vector.sub(v2, v1);
+    let redTip = p5.Vector.add(origin, v1);
+    drawArrow(redTip, between, color(0,150,0));
+
+    // animación
+    t += speed * dir;
+    if (t > 1 || t < 0) dir *= -1;
+}
+
+function drawArrow(base, vec, myColor) {
+    push();
+    stroke(myColor);
+    strokeWeight(3);
+    fill(myColor);
+
+    translate(base.x, base.y);
+    line(0, 0, vec.x, vec.y);
+
+    rotate(vec.heading());
+    let arrowSize = 7;
+    translate(vec.mag() - arrowSize, 0);
+    triangle(0, arrowSize/2, 0, -arrowSize/2, arrowSize, 0);
+    pop();
+}
+```
+-¿Cómo funciona lerp() y lerpColor().
+R//= Lerp() nos da un valor intermedio entre dos valores que nos deny este varía según un parametro que va de 0 a 1, mientras que lerpcolor() busca hacer lo mismo, pero esta vez con colores, no hacer un cambio brusco entre colores, sino un cambio suave.
+
+-¿Cómo se dibuja una flecha usando drawArrow()?
+R//=Primero se define una base, una posición en la cual se va a iniciar, la cual por defecto es 0,0. Luego con la función line se dibuja la línea, desde el punto 0,0 hasta el vector que se le dio, después se rota para que la flecha apunte a donde esta el vector y luego se evita que se pase la punta de la flecha del vector con su magnitud y restandole el tamaño, además de luego dibujar la punta.
+
+### Actividad 7
+-Cuál es el concepto del marco motion 101 y cómo se interpreta geométricamente.
+R//= Es un modelo básico de movimiento donde la posición de un objeto cambia sumandole una velocidad en cada frame. geometrícamente es el que el objeto sigue una dirección como si fuera una flecha.
+
+-¿Cómo se aplica motion 101 en el ejemplo?
+R//= Se aplica en el update, donde se le suma esta velocidad.
+
+### Actividad 8
+
+-¿Qué observaste cuando usas cada una de las aceleraciones propuestas?
+
+R//= La aceleración es lo que realmente define el comportamiento del movimiento:
+
+-Constante: movimiento físico clásico
+-Aleatoria: comportamiento natural/orgánico
+-Hacia objetivo: comportamiento autónomo/inteligente
+
+La posición es solo la consecuencia final.
+
+### Actividad 9
+
+Concepto del arte génerativo:
+Lo que se busco con esta obra fue generar un sistema de particulas con el cual el usuario pueda interactuar. Esto siguiendo algunas físicas planteadas para darles más vida a las particulas y que puedan llegar a dar formas increíbles. 
+Usando cuatro modos que varían según el click, uno sigue al mouse del usuario, utilizando vectores con magnitudes pequeñas para que las particulas no vayan tan rápido y brindadoles una aceleración para que sigan al mouse. Con otro click las particulas van en sentido contrario. Con un tercer click, estás orbitan con el mouse generando un vector perpendicular y por último, un noise, para que las particulas simulen un movimiento más natural, permitiendo así que genere un estilo único.
+
+Código:
+
+```java
+let particles = [];
+let mode = 0; // 0 seguir, 1 huir, 2 orbitar, 3 ruido
+
+function setup() {
+  createCanvas(600, 400);
+}
+
+function draw() {
+  background(10, 20);
+
+  // crear partículas continuamente
+  if (frameCount % 5 == 0) {
+    particles.push(new Particle(width/2, height/2));
+  }
+
+  // actualizar
+  for (let p of particles) {
+    p.behaviors();
+    p.update();
+    p.show();
+  }
+
+  // limpiar exceso
+  if (particles.length > 300) particles.splice(0,1);
+}
+
+// cambiar personalidad
+function mousePressed(){
+  mode = (mode + 1) % 4;
+}
+
+class Particle {
+
+  constructor(x,y){
+    this.pos = createVector(x,y);
+    this.vel = createVector();
+    this.acc = createVector();
+    this.maxSpeed = 3;
+  }
+
+  behaviors(){
+    let mouse = createVector(mouseX, mouseY);
+    let dir = p5.Vector.sub(mouse, this.pos);
+
+    if(mode == 0){ 
+      // seguir
+      dir.setMag(0.2);
+      this.applyForce(dir);
+    }
+
+    if(mode == 1){ 
+      // huir
+      dir.mult(-1);
+      dir.setMag(0.2);
+      this.applyForce(dir);
+    }
+
+    if(mode == 2){
+      // orbitar
+      let perpendicular = createVector(-dir.y, dir.x);
+      perpendicular.setMag(0.2);
+      this.applyForce(perpendicular);
+    }
+
+    if(mode == 3){
+      // ruido orgánico
+      let n = noise(this.pos.x*0.01, this.pos.y*0.01, frameCount*0.01);
+      let angle = map(n,0,1,0,TWO_PI);
+      let wander = p5.Vector.fromAngle(angle);
+      wander.setMag(0.15);
+      this.applyForce(wander);
+    }
+  }
+
+  applyForce(force){
+    this.acc.add(force);
+  }
+
+  update(){
+    this.vel.add(this.acc);
+    this.vel.limit(this.maxSpeed);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+  }
+
+  show(){
+    stroke(255,120);
+    point(this.pos.x,this.pos.y);
+  }
+}
+```
+
+<img width="760" height="549" alt="image" src="https://github.com/user-attachments/assets/1c415dcd-a6a4-45ae-8d57-4d8198e9977a" />
+
+
+<img width="764" height="552" alt="image" src="https://github.com/user-attachments/assets/db50e046-e04b-45c9-b735-6cc163296570" />
+
+
+<img width="735" height="615" alt="image" src="https://github.com/user-attachments/assets/ec7ee85d-ede7-444f-9f20-b53ff7f07712" />
+
+
+Link: https://editor.p5js.org/DiabloDa/sketches/AHTHFRvKf
+
 
 
 ## Bitácora de reflexión
+
+
+### Actividad 10
+
+Concepto: La pieza representa un ecosistema microscópico en constante formación.
+En el espacio aparecen núcleos u organismos centrales que atraen partículas cercanas mediante una fuerza similar a la gravedad. Las partículas no solo son atraídas, sino que también adquieren una velocidad tangencial que las obliga a orbitar alrededor del núcleo en lugar de colisionar directamente.
+
+Este comportamiento produce estructuras dinámicas: anillos, cúmulos y trayectorias curvas que se reorganizan continuamente. No existe un estado final estable; el sistema permanece en equilibrio dinámico, donde nuevas partículas nacen, son capturadas, escapan o migran hacia otros centros de atracción.
+
+Código:
+
+```java
+let organisms = [];
+let spores = [];
+
+function setup() {
+  createCanvas(900, 600);
+  background(0);
+}
+
+function draw() {
+
+  // fondo translúcido → deja rastro
+  background(0, 25);
+
+  // crear organismos
+  if(frameCount % 25 == 0){
+    organisms.push(new Organism(random(width), random(height)));
+  }
+
+  // crear esporas
+  if(frameCount % 5 == 0){
+    spores.push(new Spore(random(width), random(height)));
+  }
+
+  // actualizar organismos
+  for(let o of organisms){
+    o.behave();
+    o.update();
+    o.show();
+  }
+
+  // actualizar esporas
+  for(let s of spores){
+    s.follow(organisms);
+    s.update();
+    s.show();
+  }
+}
+
+
+// =========================
+// ORGANISMO (criatura principal)
+// =========================
+class Organism{
+
+  constructor(x,y){
+    this.pos = createVector(x,y);
+    this.vel = p5.Vector.random2D();
+    this.acc = createVector();
+    this.history = [];
+    this.maxSpeed = 2;
+    this.hue = random(260,320);
+  }
+
+  behave(){
+
+    // movimiento orgánico con noise
+    let n = noise(this.pos.x*0.003,this.pos.y*0.003,frameCount*0.01);
+    let angle = map(n,0,1,-PI,PI);
+    let wander = p5.Vector.fromAngle(angle);
+    wander.setMag(0.15);
+    this.applyForce(wander);
+
+    // atracción al mouse (la "luz")
+    let mouse = createVector(mouseX,mouseY);
+    let dir = p5.Vector.sub(mouse,this.pos);
+    dir.setMag(0.05);
+    this.applyForce(dir);
+  }
+
+  applyForce(f){
+    this.acc.add(f);
+  }
+
+  update(){
+    // motion 101
+    this.vel.add(this.acc);
+    this.vel.limit(this.maxSpeed);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+
+    // guardar historial para rastro
+    this.history.push(this.pos.copy());
+    if(this.history.length > 40) this.history.shift();
+  }
+
+  show(){
+
+    noFill();
+
+    // cuerpo luminoso
+    for(let i=0;i<this.history.length-1;i++){
+      let alpha = map(i,0,this.history.length,0,120);
+      stroke(180,80,255,alpha);
+      line(
+        this.history[i].x,this.history[i].y,
+        this.history[i+1].x,this.history[i+1].y
+      );
+    }
+
+    // cabeza brillante
+    noStroke();
+    fill(255,255,120);
+    circle(this.pos.x,this.pos.y,4);
+  }
+}
+
+
+// =========================
+// ESPORAS (partículas seguidoras)
+// =========================
+class Spore{
+
+  constructor(x,y){
+    this.pos = createVector(x,y);
+    this.vel = p5.Vector.random2D();
+    this.acc = createVector();
+  }
+
+  follow(orgs){
+
+  let closest = null;
+  let record = 9999;
+
+  for(let o of orgs){
+    let d = p5.Vector.dist(this.pos,o.pos);
+    if(d < record){
+      record = d;
+      closest = o;
+    }
+  }
+
+  if(closest){
+
+    let dir = p5.Vector.sub(closest.pos,this.pos);
+    let distance = dir.mag();
+
+    // evitar división por cero
+    distance = constrain(distance, 10, 200);
+
+    // ---- FUERZA GRAVITACIONAL ----
+    let G = 25; // intensidad global
+    let strength = G / (distance * distance);
+
+    let gravity = dir.copy();
+    gravity.setMag(strength);
+
+    // ---- TANGENCIAL (órbita) ----
+    let tangent = createVector(-dir.y, dir.x);
+    tangent.setMag(0.35);
+
+    // aplicar
+    this.applyForce(gravity);
+    this.applyForce(tangent);
+  }
+}
+
+
+  applyForce(f){
+    this.acc.add(f);
+  }
+
+  update(){
+    this.vel.add(this.acc);
+    this.vel.limit(2.5);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+  }
+
+  show(){
+    noStroke();
+    fill(255,230,120,200);
+    circle(this.pos.x,this.pos.y,2);
+  }
+}
+```
+
+<img width="918" height="679" alt="image" src="https://github.com/user-attachments/assets/35914c66-43e4-4c40-a497-dbf543c468b8" />
+
+
+
