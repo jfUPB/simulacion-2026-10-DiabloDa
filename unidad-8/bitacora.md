@@ -114,5 +114,48 @@ y control ambiental basado en altura.
 
 -Herramienta: Blender
 
+-El sistema principal transferido fue el uso de:
+
+Aleatoriedad / ruido
+Distribución procedural
+Sistemas generativos basados en campos
+
+En p5.js estos sistemas se usaban para controlar movimiento, posición o comportamiento visual mediante ruido Perlin y reglas algorítmicas.
+
+-La pieza fue pensada como un entorno cinematográfico procedural, similar a escenarios usados en:
+
+videojuegos,
+visualización ambiental,
+cinemáticas,
+fondos para animación,
+renders conceptuales.
+
+La idea es que funcione como una demostración visual para portafolio, mostrando generación procedural de naturaleza mediante Geometry Nodes.
+
+-En p5.js, el ruido se utilizaba para generar variaciones dinámicas en posición, movimiento o comportamiento.
+
+Por ejemplo:
+
+mover partículas,
+deformar formas,
+crear flow fields,
+controlar trayectorias.
+
+En Blender, ese mismo principio se transfirió mediante Geometry Node.
+
+-La pieza final consiste en:
+
+un terreno procedural con montañas,
+un sistema de agua independiente,
+distribución procedural de:
+flores,
+vegetación,
+control por altura para evitar generación bajo el agua,
+variación mediante ruido procedural,
+composición cinematográfica con cámara e iluminación.
+
+
+
+La escena puede mostrarse mediante render animado o recorrido de cámara.
 
 ## Bitácora de reflexión
